@@ -2,7 +2,7 @@
 
 	var defaultContentFunction = function(feed) {
 		return feed;
-	}
+	};
 
 	$.widget("ui.p8FeedItem", {
 		options : {
@@ -112,7 +112,7 @@
 					imageToWaitFor.onerror = function() {
 						if (nowTicket == self.options._imageLoadTicket)
 							self.switchFeeds();
-					}
+					};
 					imageToWaitFor.onload = function() {
 						setTimeout(function() {
 							if (nowTicket == self.options._imageLoadTicket)
@@ -144,11 +144,11 @@
 				}, 250);
 			}
 
-			//TODO: remove jTruncate dependency
-			$(".feedTitle", article).jTruncate({
-				length : 40,
-				minTrail : 0
-			});
+//TODO: remove jTruncate dependency
+$(".feedTitle", article).jTruncate({
+	length : 40,
+	minTrail : 0
+});
 
 		},
 		switchFeeds : function() {
@@ -341,7 +341,6 @@
 
 	$.widget("ui.p8JsonGallery", {
 		options : {
-			itemsSelector : null,
 			maxCount : 100,
 			requestFunction : null,
 			feedLoaderFunction : null
@@ -352,15 +351,12 @@
 			this.allFeeds = new Array();
 			this.feedStreamEnd = false;
 			this.isRetrivingFeed = false;
-			this.total = this.options.itemsSelector.length;
+			this.total = this.element.children().size();
 		},
 
 		_create : function() {
 			this.element.addClass("p8JsonGallery");
-			this.options.itemsSelector.addClass("p8JsonGallery-item");
-			this.element.p8SimpleGrid({
-				contentSelector : this.options.itemsSelector
-			});
+			this.element.children().addClass("p8JsonGallery-item");
 		},
 		reload : function() {
 			this.currentCount = 0;
@@ -404,11 +400,8 @@
 			}
 
 			// load next available feedItems
-			var p8Items = $('.p8JsonGallery-item', this.element);
 			if (this.canMoveForwards()) {
-				for ( var i = this.total * this.currentCount, len = this.allFeeds.length; i < this.total * (this.currentCount + 1) && i < len; ++i) {
-					self.options.feedLoaderFunction.call(self, $(p8Items.get(i - this.total * this.currentCount)), this.allFeeds[i]);
-				}
+				this._loadNextItems();
 				this.currentCount++;
 			}
 			self._trigger('moveForwards');
@@ -423,19 +416,22 @@
 				return;
 
 			var self = this;
-			var elem = this.element;
-			var p8Items = $('.p8JsonGallery-item', elem);
-
+			
 			this.currentCount--;
 			this.currentCount--;
-			for ( var i = this.total * this.currentCount, len = this.allFeeds.length; i < this.total * (this.currentCount + 1) && i < len && i > -1; ++i) {
-				self.options.feedLoaderFunction.call(self, $(p8Items.get(i - this.total * this.currentCount)), this.allFeeds[i]);
-			}
+			this._loadNextItems();
 			this.currentCount++;
 
 			self._trigger('moveBackwards');
 		},
 
+		_loadNextItems: function() {
+			var p8Items = $('.p8JsonGallery-item', this.element);
+			for ( var i = this.total * this.currentCount, len = this.allFeeds.length; i < this.total * (this.currentCount + 1) && i < len && i > -1; ++i) {
+				self.options.feedLoaderFunction.call(self, $(p8Items.get(i - this.total * this.currentCount)), this.allFeeds[i]);
+			}
+		},
+		
 		_preProcessResponse : function() {
 			var self = this;
 			self.isRetrivingFeed = false;
@@ -483,7 +479,7 @@
 				}
 				currentColE.append($(this));
 
-				elem.append(currentColE);
+				elem.appendTo(currentColE);
 				if (currentRow == self.options.totalInRow - 1) {
 					currentCol++;
 					currentRow = 0;

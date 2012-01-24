@@ -49,21 +49,22 @@
 			$("#workerCont").append($('<div></div>').p8FeedItem({contentFunc:createFeedContent}));
 		}
 		
+		/*$('#mainGallery').p8SimpleGrid({
+			contentSelector : $('#mainGallery .gallery1')
+		});
+		*/
 		
+		$('.gallery1').hide();
 		
-		$('#galleryContent')
-			.append($('#mainNavigationContent').p8SimpleGrid({contentSelector:$('#mainNavigationContent .p8FeedItem')}))
-			.append($('<div id="mainGallery"></div>')
-				.data("galleryRequestParam", {callCount:0,cursor:null,cat:null})
-				.p8JsonGallery({
-					itemsSelector:$('#workerCont .p8FeedItem'),
-					moveForwards:function(){updateNavigation();},
-					moveBackwards:function(){updateNavigation();},
-					feedItemsChanged:function(){updateNavigation();},
-					loading:function(loading){if(loading == true){ $('.prefNavBusy').fadeIn(200);} else{ $('.prefNavBusy').fadeOut(200);}},
-					feedLoaderFunction: function(p8Item,feed) {p8Item.p8FeedItem("load",feed.imageUrl,feed);},
-					requestFunction: galleryJsonRequest
-				}));
+		$('#mainGallery')
+			.p8JsonGallery({
+				moveForwards:function(){updateNavigation();},
+				moveBackwards:function(){updateNavigation();},
+				feedItemsChanged:function(){updateNavigation();},
+				loading:function(loading){if(loading == true){ $('.prefNavBusy').fadeIn(200);} else{ $('.prefNavBusy').fadeOut(200);}},
+				feedLoaderFunction: function(p8Item,feed) {p8Item.empty().append(feed.clone().show())},
+				requestFunction: galleryJsonRequest
+			});
 		
 		showGridded();
 		$('#mainGallery').p8JsonGallery('reload');
@@ -91,7 +92,6 @@
 	
 	var showGridded = function() {
 		$('#mainGallery').animate({opacity:1},900);
-		$('.p8ImageCont').p8ImageCont('unload');
 		updateNavigation();
 		
 	}
@@ -104,7 +104,7 @@
 		
 		var datas = [];
 		$('.gallery1').each(function(){
-			datas.push({imageUrl:$(this).attr('src')});
+			datas.push($(this));
 		});
 						
 		
@@ -137,9 +137,26 @@
   
   
   <div id="galleryContent">
-  
-    
-  
+    <div id="mainGallery">
+      <div></div>
+      <div></div>
+    </div>
+    <img class="gallery1" src="images/cat-1.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-1.jpg"/>
   </div>
   
   <div id="footer" style="">
@@ -151,22 +168,7 @@
   
  </div>
  <div id="workerCont"  style="display:none;">
- 	<img class="gallery1" src="images/cat-1.jpg"/>
- 	<img class="gallery1" src="images/cat-2.jpg"/>
- 	<img class="gallery1" src="images/cat-3.jpg"/>
- 	<img class="gallery1" src="images/cat-4.jpg"/>
- 	<img class="gallery1" src="images/cat-5.jpg"/>
- 	<img class="gallery1" src="images/cat-6.jpg"/>
- 	<img class="gallery1" src="images/cat-7.jpg"/>
- 	<img class="gallery1" src="images/cat-8.jpg"/>
- 	<img class="gallery1" src="images/cat-8.jpg"/>
- 	<img class="gallery1" src="images/cat-7.jpg"/>
- 	<img class="gallery1" src="images/cat-6.jpg"/>
- 	<img class="gallery1" src="images/cat-5.jpg"/>
- 	<img class="gallery1" src="images/cat-4.jpg"/>
- 	<img class="gallery1" src="images/cat-3.jpg"/>
- 	<img class="gallery1" src="images/cat-2.jpg"/>
- 	<img class="gallery1" src="images/cat-1.jpg"/>
+ 	
  </div>
 </body>
 </html>
