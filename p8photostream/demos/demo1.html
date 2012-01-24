@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 photostream demo 1</title>
+
+  <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <link href="demo.css" rel="stylesheet" type="text/css"/>
+	
+  <script type="text/javascript" language="javascript" src="../external/jquery-1.7.1.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery-ui.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.easing.1.3.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.busy.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.jtruncate.js"></script>
+
+  <script type="text/javascript" language="javascript" src="../src/p8photosurfer.js"></script>
+  
+ 
+  <script type="text/javascript" language="javascript">
+  
+  	var maxCount = 100;
+  	var total = 8;
+  	
+  	var moveForwards = function() {
+  		if(!$(this).button( "option", "disabled" ))
+			$('#mainGallery').p8JsonGallery('moveForwards');
+	}
+	
+	var moveBackwards = function() {
+		if(!$(this).button( "option", "disabled" ))
+			$('#mainGallery').p8JsonGallery('moveBackwards');
+	}
+  	
+  	
+  	
+	$(document).ready(function() {
+		$('#navigationCont .next').button({'disabled':true}).bind('click',moveForwards);
+		$('#navigationCont .previous').button({'disabled':true}).bind('click',moveBackwards);
+		
+		$('.prefNavBusy').hide();
+		
+		//create feeditems
+		var createFeedContent = function(feed) {
+			return null;
+		}
+		
+		for ( var i=0; i<total; ++i ){
+			$("#workerCont").append($('<div></div>').p8FeedItem({contentFunc:createFeedContent}));
+		}
+		
+		
+		
+		$('#galleryContent')
+			.append($('#mainNavigationContent').p8SimpleGrid({contentSelector:$('#mainNavigationContent .p8FeedItem')}))
+			.append($('<div id="mainGallery"></div>')
+				.data("galleryRequestParam", {callCount:0,cursor:null,cat:null})
+				.p8JsonGallery({
+					itemsSelector:$('#workerCont .p8FeedItem'),
+					moveForwards:function(){updateNavigation();},
+					moveBackwards:function(){updateNavigation();},
+					feedItemsChanged:function(){updateNavigation();},
+					loading:function(loading){if(loading == true){ $('.prefNavBusy').fadeIn(200);} else{ $('.prefNavBusy').fadeOut(200);}},
+					feedLoaderFunction: function(p8Item,feed) {p8Item.p8FeedItem("load",feed.imageUrl,feed);},
+					requestFunction: galleryJsonRequest
+				}));
+		
+		showGridded();
+		$('#mainGallery').p8JsonGallery('reload');
+		
+	  	
+	});
+	
+	
+	var updateNavigation = function() {
+		$('.page-count').text("page: "+($('#mainGallery').p8JsonGallery('getCurrentCount')));
+		
+		if($('#mainGallery').p8JsonGallery('canMoveForwards'))
+			$('#navigationCont .next').button('enable');
+		else
+			$('#navigationCont .next').button('disable');
+		
+		
+		if($('#mainGallery').p8JsonGallery('canMoveBackwards'))
+			$('#navigationCont .previous').button('enable');
+		else
+			$('#navigationCont .previous').button('disable');
+	
+	}
+
+	
+	var showGridded = function() {
+		$('#mainGallery').animate({opacity:1},900);
+		$('.p8ImageCont').p8ImageCont('unload');
+		updateNavigation();
+		
+	}
+	
+	
+	var galleryJsonRequest = function() {
+		var self = this;
+		
+		self._preProcessResponse();
+		
+		var datas = [];
+		$('.gallery1').each(function(){
+			datas.push({imageUrl:$(this).attr('src')});
+		});
+						
+		
+		self.allFeeds = self.allFeeds.concat(datas);
+		
+		self.feedStreamEnd = true;
+			
+		//self.isRetrivingFeed = false;
+		
+		self._postProcessResponse();
+	};
+	
+	
+  </script>
+  
+ 
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="navigationCont">
+    <div class="prevNextCont" style="position: relative;">
+      <a href="#" class="previous" style="z-index:10">Previous</a>
+  	  <a href="#" class="next" style="z-index:10">Next</a>
+  	  <span class="prefNavBusy"><img src="images/busy.gif" valign="top" width=22 height=22 /></span>
+  	  <span class="page-count"></span>
+    </div>
+  </div>
+  
+  
+  
+  <div id="galleryContent">
+  
+    
+  
+  </div>
+  
+  <div id="footer" style="">
+    <div class="footerCont" style="position:relative; top:5px;height: 20px">
+      <span style="">powered by <a href="https://plus.google.com/113880730306243229744/" target="_blank">Photography Stream</a></span>
+    </div>
+  </div>
+  
+  
+ </div>
+ <div id="workerCont"  style="display:none;">
+ 	<img class="gallery1" src="images/cat-1.jpg"/>
+ 	<img class="gallery1" src="images/cat-2.jpg"/>
+ 	<img class="gallery1" src="images/cat-3.jpg"/>
+ 	<img class="gallery1" src="images/cat-4.jpg"/>
+ 	<img class="gallery1" src="images/cat-5.jpg"/>
+ 	<img class="gallery1" src="images/cat-6.jpg"/>
+ 	<img class="gallery1" src="images/cat-7.jpg"/>
+ 	<img class="gallery1" src="images/cat-8.jpg"/>
+ 	<img class="gallery1" src="images/cat-8.jpg"/>
+ 	<img class="gallery1" src="images/cat-7.jpg"/>
+ 	<img class="gallery1" src="images/cat-6.jpg"/>
+ 	<img class="gallery1" src="images/cat-5.jpg"/>
+ 	<img class="gallery1" src="images/cat-4.jpg"/>
+ 	<img class="gallery1" src="images/cat-3.jpg"/>
+ 	<img class="gallery1" src="images/cat-2.jpg"/>
+ 	<img class="gallery1" src="images/cat-1.jpg"/>
+ </div>
+</body>
+</html>
