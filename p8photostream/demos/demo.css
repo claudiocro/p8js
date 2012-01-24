@@ -11,6 +11,9 @@ body {
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
 	font-family: arial, serif;
 }
+a {
+	color:black;
+}
 
 #navigationCont {
 	margin: 0 auto;
@@ -34,9 +37,6 @@ body {
   height: 50px;
 }
 
-#footer a {
-  color: black;	
-}
 
 
 #mainGallery {
@@ -92,11 +92,6 @@ body {
 
 #mainGallery .col .article .summary .innerCont{
 	padding: 0 5px 5px 5px;
-}
-
-
-#mainGallery .col .article .summary a {
-  color: black;
 }
 
 

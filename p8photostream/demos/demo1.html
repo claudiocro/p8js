@@ -19,103 +19,16 @@
  
   <script type="text/javascript" language="javascript">
   
-  	var maxCount = 100;
-  	var total = 8;
-  	
-  	var moveForwards = function() {
-  		if(!$(this).button( "option", "disabled" ))
-			$('#mainGallery').p8JsonGallery('moveForwards');
-	}
-	
-	var moveBackwards = function() {
-		if(!$(this).button( "option", "disabled" ))
-			$('#mainGallery').p8JsonGallery('moveBackwards');
-	}
-  	
-  	
-  	
-	$(document).ready(function() {
-		$('#navigationCont .next').button({'disabled':true}).bind('click',moveForwards);
-		$('#navigationCont .previous').button({'disabled':true}).bind('click',moveBackwards);
-		
-		$('.prefNavBusy').hide();
-		
-		//create feeditems
-		var createFeedContent = function(feed) {
-			return null;
-		}
-		
-		for ( var i=0; i<total; ++i ){
-			$("#workerCont").append($('<div></div>').p8FeedItem({contentFunc:createFeedContent}));
-		}
-		
-		/*$('#mainGallery').p8SimpleGrid({
-			contentSelector : $('#mainGallery .gallery1')
-		});
-		*/
-		
+  	$(document).ready(function() {
 		$('.gallery1').hide();
 		
-		$('#mainGallery')
-			.p8JsonGallery({
-				moveForwards:function(){updateNavigation();},
-				moveBackwards:function(){updateNavigation();},
-				feedItemsChanged:function(){updateNavigation();},
-				loading:function(loading){if(loading == true){ $('.prefNavBusy').fadeIn(200);} else{ $('.prefNavBusy').fadeOut(200);}},
-				feedLoaderFunction: function(p8Item,feed) {p8Item.empty().append(feed.clone().show())},
-				requestFunction: galleryJsonRequest
-			});
-		
-		showGridded();
-		$('#mainGallery').p8JsonGallery('reload');
-		
-	  	
-	});
-	
-	
-	var updateNavigation = function() {
-		$('.page-count').text("page: "+($('#mainGallery').p8JsonGallery('getCurrentCount')));
-		
-		if($('#mainGallery').p8JsonGallery('canMoveForwards'))
-			$('#navigationCont .next').button('enable');
-		else
-			$('#navigationCont .next').button('disable');
-		
-		
-		if($('#mainGallery').p8JsonGallery('canMoveBackwards'))
-			$('#navigationCont .previous').button('enable');
-		else
-			$('#navigationCont .previous').button('disable');
-	
-	}
-
-	
-	var showGridded = function() {
-		$('#mainGallery').animate({opacity:1},900);
-		updateNavigation();
-		
-	}
-	
-	
-	var galleryJsonRequest = function() {
-		var self = this;
-		
-		self._preProcessResponse();
-		
-		var datas = [];
-		$('.gallery1').each(function(){
-			datas.push($(this));
+		$('#mainGallery').p8GalleryCreator({
+			elementsSelector: $('.gallery1'),
+			nextSelector: $('.prevNextCont .next'),
+			previousSelector: $('.prevNextCont .previous')
 		});
-						
 		
-		self.allFeeds = self.allFeeds.concat(datas);
-		
-		self.feedStreamEnd = true;
-			
-		//self.isRetrivingFeed = false;
-		
-		self._postProcessResponse();
-	};
+	});
 	
 	
   </script>
@@ -125,22 +38,23 @@
 
 <body>
 <div id="wrapper">
-  <div id="navigationCont">
+
+
+  <div style="margin-bottom: 10px;">
     <div class="prevNextCont" style="position: relative;">
-      <a href="#" class="previous" style="z-index:10">Previous</a>
-  	  <a href="#" class="next" style="z-index:10">Next</a>
-  	  <span class="prefNavBusy"><img src="images/busy.gif" valign="top" width=22 height=22 /></span>
-  	  <span class="page-count"></span>
+      <a href="#" class="previous">Previous</a>&nbsp;|&nbsp;
+  	  <a href="#" class="next">Next</a>
     </div>
   </div>
   
   
   
-  <div id="galleryContent">
+  <div>
     <div id="mainGallery">
-      <div></div>
-      <div></div>
+      <span></span>
+      <span></span>
     </div>
+    
     <img class="gallery1" src="images/cat-1.jpg"/>
     <img class="gallery1" src="images/cat-2.jpg"/>
     <img class="gallery1" src="images/cat-3.jpg"/>
@@ -157,18 +71,8 @@
     <img class="gallery1" src="images/cat-3.jpg"/>
     <img class="gallery1" src="images/cat-2.jpg"/>
     <img class="gallery1" src="images/cat-1.jpg"/>
-  </div>
-  
-  <div id="footer" style="">
-    <div class="footerCont" style="position:relative; top:5px;height: 20px">
-      <span style="">powered by <a href="https://plus.google.com/113880730306243229744/" target="_blank">Photography Stream</a></span>
-    </div>
-  </div>
-  
-  
- </div>
- <div id="workerCont"  style="display:none;">
- 	
- </div>
+  </div>  
+</div>
+ 
 </body>
 </html>

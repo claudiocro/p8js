@@ -300,7 +300,7 @@ $(".feedTitle", article).jTruncate({
 						height = imageToWaitFor.height;
 					}
 
-					var scaled = scaleSize(self.options.maxWidth, self.options.maxHeight, width, height);
+					var scaled = $.scaleSize(self.options.maxWidth, self.options.maxHeight, width, height);
 					imgElem.attr("width", parseInt(scaled[0])).attr("height", parseInt(scaled[1])).css({
 						"margin-top" : parseInt((self.options.maxHeight - scaled[1]) / 2)
 					});
@@ -426,6 +426,7 @@ $(".feedTitle", article).jTruncate({
 		},
 
 		_loadNextItems: function() {
+			var self = this;
 			var p8Items = $('.p8JsonGallery-item', this.element);
 			for ( var i = this.total * this.currentCount, len = this.allFeeds.length; i < this.total * (this.currentCount + 1) && i < len && i > -1; ++i) {
 				self.options.feedLoaderFunction.call(self, $(p8Items.get(i - this.total * this.currentCount)), this.allFeeds[i]);
@@ -473,7 +474,6 @@ $(".feedTitle", article).jTruncate({
 			var currentRow = 0;
 			var currentColE = null;
 			self.options.contentSelector.each(function() {
-				// for(i=0;i<self.options.total; i++) {
 				if (currentRow == 0) {
 					currentColE = $('<div class="grid col col-' + currentCol + '">');
 				}
@@ -486,12 +486,94 @@ $(".feedTitle", article).jTruncate({
 				} else {
 					currentRow++;
 				}
-				// }
 			});
 		}
 	});
 
 }(jQuery));
+
+
+
+
+(function($) {
+	
+	var feedLoaderFunction = function(element,data) {
+		element.empty().append(data.clone().show());
+	};
+	
+	var navigationShowHideFunction = function(element, show) {
+		if(show == true) {
+			$(element).show();
+		} else {
+			$(element).hide();
+		}
+	};
+	
+	$.fn.p8GalleryCreator = function(poptions) {
+		var options = jQuery.extend ({
+				elementsSelector:  null,
+				nextSelector:      '',
+				previousSelector:  '',
+				feedLoaderFunction: feedLoaderFunction,
+				navigationShowHideFunction: navigationShowHideFunction
+			},poptions);
+		
+		var updateNavigation = function() {
+			options.navigationShowHideFunction(options.nextSelector, $(this).p8JsonGallery('canMoveForwards'));
+			options.navigationShowHideFunction(options.previousSelector, $(this).p8JsonGallery('canMoveBackwards'));
+		};
+		
+		var galleryJsonRequest = function() {
+			var self = this;
+			
+			self._preProcessResponse();
+			
+			options.elementsSelector.each(function(){
+				self.allFeeds.push($(this));
+			});
+			self.feedStreamEnd = true;
+				
+//self.isRetrivingFeed = false;
+			
+			self._postProcessResponse();
+		};
+		
+		
+		
+		return this.each (function () {
+			var self = this;
+			
+			var moveForwards = function() {
+				if($(self).p8JsonGallery('canMoveForwards'))
+					$(self).p8JsonGallery('moveForwards');
+			};
+			
+			var moveBackwards = function() {
+				if($(self).p8JsonGallery('canMoveBackwards'))
+					$(self).p8JsonGallery('moveBackwards');
+			};
+		
+			options.nextSelector.bind('click',moveForwards);
+			options.previousSelector.bind('click',moveBackwards);
+			
+			
+			$(this).p8JsonGallery({
+				moveForwards:function(){updateNavigation.call(this);},
+				moveBackwards:function(){updateNavigation.call(this);},
+				feedLoaderFunction: options.feedLoaderFunction,
+				requestFunction: galleryJsonRequest
+			});
+		
+		
+			$(this).p8JsonGallery('reload');
+			
+			return $(this);
+		});
+			
+	};
+	
+})(jQuery);
+
 
 $.extend({
 	getUrlVars : function() {
@@ -509,18 +591,19 @@ $.extend({
 	}
 });
 
-function scaleSize(maxW, maxH, currW, currH) {
+$.extend({
+	scaleSize : function(maxW, maxH, currW, currH) {
+		var ratio = currH / currW;
+		var maxRatio = maxH / maxW;
 
-	var ratio = currH / currW;
-	var maxRatio = maxH / maxW;
+		if (currW >= maxW && ratio <= maxRatio) {
+			currW = maxW;
+			currH = currW * ratio;
+		} else if (currH >= maxH) {
+			currH = maxH;
+			currW = currH / ratio;
+		}
 
-	if (currW >= maxW && ratio <= maxRatio) {
-		currW = maxW;
-		currH = currW * ratio;
-	} else if (currH >= maxH) {
-		currH = maxH;
-		currW = currH / ratio;
+		return [ currW, currH ];
 	}
-
-	return [ currW, currH ];
-}
+});
