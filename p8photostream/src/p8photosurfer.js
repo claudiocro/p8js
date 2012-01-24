@@ -470,7 +470,7 @@ $(".feedTitle", article).jTruncate({
 				'z-index' : 2
 			});
 
-			var currentCol = 0
+			var currentCol = 0;
 			var currentRow = 0;
 			var currentColE = null;
 			self.options.contentSelector.each(function() {
@@ -498,7 +498,7 @@ $(".feedTitle", article).jTruncate({
 (function($) {
 	
 	var feedLoaderFunction = function(element,data) {
-		element.empty().append(data.clone().show());
+		element.empty().append($(data).clone().show());
 	};
 	
 	var navigationShowHideFunction = function(element, show) {
@@ -511,33 +511,38 @@ $(".feedTitle", article).jTruncate({
 	
 	$.fn.p8GalleryCreator = function(poptions) {
 		var options = jQuery.extend ({
-				elementsSelector:  null,
-				nextSelector:      '',
-				previousSelector:  '',
-				feedLoaderFunction: feedLoaderFunction,
-				navigationShowHideFunction: navigationShowHideFunction
+				datas:						null,
+				nextSelector:				null,
+				previousSelector:			null,
+				requestFunction:			null,
+				feedLoaderFunction:			feedLoaderFunction,
+				navigationShowHideFunction:	navigationShowHideFunction
 			},poptions);
 		
 		var updateNavigation = function() {
-			options.navigationShowHideFunction(options.nextSelector, $(this).p8JsonGallery('canMoveForwards'));
-			options.navigationShowHideFunction(options.previousSelector, $(this).p8JsonGallery('canMoveBackwards'));
+			if(options.nextSelector != null)
+				options.navigationShowHideFunction(options.nextSelector, $(this).p8JsonGallery('canMoveForwards'));
+			
+			if(options.previousSelector != null)
+				options.navigationShowHideFunction(options.previousSelector, $(this).p8JsonGallery('canMoveBackwards'));
 		};
 		
-		var galleryJsonRequest = function() {
-			var self = this;
-			
-			self._preProcessResponse();
-			
-			options.elementsSelector.each(function(){
-				self.allFeeds.push($(this));
-			});
-			self.feedStreamEnd = true;
+		if(options.datas instanceof jQuery) {
+			options.datas = options.datas.toArray();
+		}
+		
+		if(options.requestFunction == null) {
+			options.requestFunction = function() {
+				this._preProcessResponse();
 				
-//self.isRetrivingFeed = false;
-			
-			self._postProcessResponse();
-		};
-		
+				this.allFeeds = this.allFeeds.concat(options.datas);
+				this.feedStreamEnd = true;
+					
+//this.isRetrivingFeed = false;
+				
+				this._postProcessResponse();
+			};
+		}
 		
 		
 		return this.each (function () {
@@ -561,7 +566,7 @@ $(".feedTitle", article).jTruncate({
 				moveForwards:function(){updateNavigation.call(this);},
 				moveBackwards:function(){updateNavigation.call(this);},
 				feedLoaderFunction: options.feedLoaderFunction,
-				requestFunction: galleryJsonRequest
+				requestFunction: options.requestFunction
 			});
 		
 		
@@ -569,7 +574,6 @@ $(".feedTitle", article).jTruncate({
 			
 			return $(this);
 		});
-			
 	};
 	
 })(jQuery);
