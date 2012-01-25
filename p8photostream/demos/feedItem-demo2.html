@@ -45,13 +45,19 @@
 			}
 		});
 		
+		
+		$('.item1').busy({
+			img : 'images/busy.gif',
+			hide : false
+		});
+		
+		
 		var time = 0;
 		$('.gallery1').each(function(){
 			var self = this;
 			setTimeout(function() {
 				$('.item1').p8FeedItem('load',$(self).attr('src'),$(self));
-				
-			},time);
+			}, time);
 			time = time+5000;
 		});
 		

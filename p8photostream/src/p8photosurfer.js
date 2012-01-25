@@ -1,3 +1,8 @@
+/*
+ *  p8 photosurfer  0.5
+ * 
+ */
+
 (function($) {
 
 	var defaultContentFunction = function(feed) {
