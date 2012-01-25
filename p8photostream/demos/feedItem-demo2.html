@@ -36,6 +36,13 @@
 		$('.gallery1').hide();
 		
 		$('.item1').p8FeedItem({
+			loading: function(evt, loading) {
+				if(loading == true){
+					$('.prefNavBusy').fadeIn(200);
+				} else {
+					$('.prefNavBusy').fadeOut(200);
+				}
+			}
 		});
 		
 		var time = 0;
@@ -45,7 +52,7 @@
 				$('.item1').p8FeedItem('load',$(self).attr('src'),$(self));
 				
 			},time);
-			time = time+2000;
+			time = time+5000;
 		});
 		
 	});
@@ -63,28 +70,24 @@
 <body>
 <div id="wrapper">
 
+   <div style="margin-bottom: 10px;">
+    <div class="prevNextCont" style="position: relative;">
+  	  <span class="prefNavBusy"><img src="images/busy.gif" valign="top" width=22 height=22 /></span>
+    </div>
+  </div>
+
   
   <div>
     <div id="mainGallery">
       <div class="item1"></div>
     </div>
     
-    <img class="gallery1" src="images/cat-1.jpg"/>
-    <img class="gallery1" src="images/cat-2.jpg"/>
-    <img class="gallery1" src="images/cat-3.jpg"/>
-    <img class="gallery1" src="images/cat-4.jpg"/>
-    <img class="gallery1" src="images/cat-5.jpg"/>
-    <img class="gallery1" src="images/cat-6.jpg"/>
-    <img class="gallery1" src="images/cat-7.jpg"/>
-    <img class="gallery1" src="images/cat-8.jpg"/>
-    <img class="gallery1" src="images/cat-8.jpg"/>
-    <img class="gallery1" src="images/cat-7.jpg"/>
-    <img class="gallery1" src="images/cat-6.jpg"/>
-    <img class="gallery1" src="images/cat-5.jpg"/>
-    <img class="gallery1" src="images/cat-4.jpg"/>
-    <img class="gallery1" src="images/cat-3.jpg"/>
-    <img class="gallery1" src="images/cat-2.jpg"/>
-    <img class="gallery1" src="images/cat-1.jpg"/>
+    <img class="gallery1" src="images/big-1.jpg"/>
+    <img class="gallery1" src="images/big-2.jpg"/>
+    <img class="gallery1" src="images/big-3.jpg"/>
+    <img class="gallery1" src="images/big-4.jpg"/>
+    <img class="gallery1" src="images/big-5.jpg"/>
+    <img class="gallery1" src="images/big-6.jpg"/>
   </div>  
 </div>
  

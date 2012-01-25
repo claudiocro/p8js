@@ -510,8 +510,6 @@ $.fn.p8uiTwoColPanel = function (poptions) {
  * JQUERY FUNCTION
  * CREATE panel with a singlefiled and ok / cancel buttons
  * 
- * a
- * 
  */
 	
 $.fn.p8uiSimpleSearchPanel = function (poptions) {
