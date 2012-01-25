@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 photostream demo 1</title>
+  <title>p8 photostream demo 2</title>
 
   <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -22,14 +22,52 @@
   	$(document).ready(function() {
 		$('.gallery1').hide();
 		
+		var datas = [
+			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
+			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
+			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
+			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'}
+		];
 		
+		var feedLoaderFunction = function(element,data) {
+			var child = $('<div><img src="'+data.image+'"/></div>');
+			child.hide();
+			element.empty().append(child);
+			child.fadeIn(1000);
+		};
 		
-		$('#mainGallery').p8GalleryCreator({
-			datas: $('.gallery1'),
-			nextSelector: $('.prevNextCont .next'),
-			previousSelector: $('.prevNextCont .previous')
-		});
+		var requestFunction = function() {
+			var self = this;
+			self._preProcessResponse();
+			
+			setTimeout(function() {
+				self.allFeeds = self.allFeeds.concat(datas);
+				
+				self.feedStreamEnd = true;		
+				self._postProcessResponse();
+			
+			}, 3000);
+				
+
+		}
 		
+		var galleryMove = function() {
+			$('.page-count').text("page: "+($('#mainGallery').p8JsonGallery('getCurrentCount')));
+		};
+		
+		$('#mainGallery')
+			.p8GalleryCreator({
+				nextSelector:		$('.prevNextCont .next'),
+				previousSelector:	$('.prevNextCont .previous'),
+				feedLoaderFunction:	feedLoaderFunction,
+				requestFunction: 	requestFunction,
+				loadingFunction:	function(evt, loading){if(loading == true){$('.prefNavBusy').fadeIn(200);} else {$('.prefNavBusy').fadeOut(200);}},
+				moveForwards:		galleryMove,
+				moveBackwards:		galleryMove
+			})
+			.p8SimpleGrid();
+		
+		//$('.gallery1').remove();
 	});
 	
 	
@@ -46,6 +84,8 @@
     <div class="prevNextCont" style="position: relative;">
       <a href="#" class="previous">Previous</a>&nbsp;|&nbsp;
   	  <a href="#" class="next">Next</a>
+  	  <span class="prefNavBusy"><img src="images/busy.gif" valign="top" width=22 height=22 /></span>
+  	  <span class="page-count"></span>
     </div>
   </div>
   
@@ -53,8 +93,14 @@
   
   <div>
     <div id="mainGallery">
-      <span></span>
-      <span></span>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
     
     <img class="gallery1" src="images/cat-1.jpg"/>

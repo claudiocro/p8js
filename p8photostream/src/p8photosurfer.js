@@ -351,6 +351,7 @@ $(".feedTitle", article).jTruncate({
 			this.allFeeds = new Array();
 			this.feedStreamEnd = false;
 			this.isRetrivingFeed = false;
+			this.forceMoveForeward = false;
 			this.total = this.element.children().size();
 		},
 
@@ -385,26 +386,30 @@ $(".feedTitle", article).jTruncate({
 			var self = this;
 
 			// handle navigation busy indicator
-			if (this.feedStreamEnd != true && this.currentCount < this.options.maxCount && this.allFeeds.length < this.total * (this.currentCount + 4))
-				self._trigger('loading', true);
-			else if (this.currentCount >= this.options.maxCount)
-				self._trigger('loading', false);
+			/*if (self.feedStreamEnd != true && self.currentCount < self.options.maxCount && self.allFeeds.length < self.total * (self.currentCount + 4))
+				self._trigger('loading', 0, true);
+			else if (self.currentCount >= self.options.maxCount)
+				self._trigger('loading', 0, false);
+			*/
 
 			// preload feed if necessary
-			if (this.feedStreamEnd != true && this.allFeeds.length - (this.total * 5) < this.currentCount * this.total && !this.isRetrivingFeed) {
-				this.isRetrivingFeed = true;
+			if (self.feedStreamEnd != true && self.allFeeds.length - (self.total * 5) < self.currentCount * self.total && !self.isRetrivingFeed) {
+				self.isRetrivingFeed = true;
 
-				this.ajaxTickedId++;
+				self.ajaxTickedId++;
 
 				self.options.requestFunction.call(this);
+				self.forceMoveForeward = true;
 			}
 
 			// load next available feedItems
-			if (this.canMoveForwards()) {
-				this._loadNextItems();
-				this.currentCount++;
+			if (self.canMoveForwards()) {
+				self.forceMoveForeward = false;
+				self._loadNextItems();
+				self.currentCount++;
+				
+				self._trigger('moveForwards');
 			}
-			self._trigger('moveForwards');
 		},
 
 		canMoveBackwards : function() {
@@ -416,11 +421,12 @@ $(".feedTitle", article).jTruncate({
 				return;
 
 			var self = this;
+			self.forceMoveForeward = false;
 			
-			this.currentCount--;
-			this.currentCount--;
-			this._loadNextItems();
-			this.currentCount++;
+			self.currentCount--;
+			self.currentCount--;
+			self._loadNextItems();
+			self.currentCount++;
 
 			self._trigger('moveBackwards');
 		},
@@ -435,15 +441,20 @@ $(".feedTitle", article).jTruncate({
 		
 		_preProcessResponse : function() {
 			var self = this;
-			self.isRetrivingFeed = false;
-			self._trigger('loading', false);
+			
+			self.isRetrivingFeed = true;
+			self._trigger('loading', 0, true);
 		},
 
 		_postProcessResponse : function() {
 			var self = this;
-			if (self.currentCount == 0) {
-//				self.moveForwards();
+			
+			self.isRetrivingFeed = false;
+			self._trigger('loading', 0, false);
+			if (self.forceMoveForeward == true) {
+				self.moveForwards();
 			}
+			
 			self._trigger('feedItemsChanged');
 		}
 	});
@@ -461,7 +472,7 @@ $(".feedTitle", article).jTruncate({
 
 		_create : function() {
 			if (this.options.contentSelector == null)
-				return false;
+				this.options.contentSelector = this.element.children();
 
 			var self = this;
 			var elem = this.element;
@@ -479,7 +490,7 @@ $(".feedTitle", article).jTruncate({
 				}
 				currentColE.append($(this));
 
-				elem.appendTo(currentColE);
+				elem.append(currentColE);
 				if (currentRow == self.options.totalInRow - 1) {
 					currentCol++;
 					currentRow = 0;
@@ -503,9 +514,9 @@ $(".feedTitle", article).jTruncate({
 	
 	var navigationShowHideFunction = function(element, show) {
 		if(show == true) {
-			$(element).show();
+			$(element).show(200);
 		} else {
-			$(element).hide();
+			$(element).hide(200);
 		}
 	};
 	
@@ -516,7 +527,10 @@ $(".feedTitle", article).jTruncate({
 				previousSelector:			null,
 				requestFunction:			null,
 				feedLoaderFunction:			feedLoaderFunction,
-				navigationShowHideFunction:	navigationShowHideFunction
+				navigationShowHideFunction:	navigationShowHideFunction,
+				loadingFunction:			null,
+				moveForwards:				null,
+				moveBackwards:				null
 			},poptions);
 		
 		var updateNavigation = function() {
@@ -537,9 +551,6 @@ $(".feedTitle", article).jTruncate({
 				
 				this.allFeeds = this.allFeeds.concat(options.datas);
 				this.feedStreamEnd = true;
-					
-//this.isRetrivingFeed = false;
-				
 				this._postProcessResponse();
 			};
 		}
@@ -558,15 +569,18 @@ $(".feedTitle", article).jTruncate({
 					$(self).p8JsonGallery('moveBackwards');
 			};
 		
+			navigationShowHideFunction(options.nextSelector, false);
+			navigationShowHideFunction(options.previousSelector, false);
 			options.nextSelector.bind('click',moveForwards);
 			options.previousSelector.bind('click',moveBackwards);
 			
 			
 			$(this).p8JsonGallery({
-				moveForwards:function(){updateNavigation.call(this);},
-				moveBackwards:function(){updateNavigation.call(this);},
+				moveForwards:function(){if(options.moveForwards != null){options.moveForwards.call(this);} updateNavigation.call(this);},
+				moveBackwards:function(){if(options.moveForwards != null){options.moveBackwards.call(this);}updateNavigation.call(this);},
 				feedLoaderFunction: options.feedLoaderFunction,
-				requestFunction: options.requestFunction
+				requestFunction: options.requestFunction,
+				loading: options.loadingFunction
 			});
 		
 		
