@@ -12,6 +12,7 @@
 			_timeout : null,
 			_imageLoadTicket : 0
 		},
+		
 		_create : function() {
 			var self = this;
 			var elem = this.element;
@@ -52,6 +53,7 @@
 				article.append(self.options.inactiveCnt);
 			p8FeetInactiveCont.append(article);
 		},
+		
 		_ajustByClass : function() {
 			var elem = this.element;
 			$(".active", elem).css('z-index', 10);
@@ -59,15 +61,19 @@
 			$(".active", elem).css('opacity', 1);
 			$(".inactive", elem).css('opacity', 0);
 		},
+		
 		isVisible : function() {
 			return $(".active", this.element).css('opacity') != 0 || $(".inactive", this.element).css('opacity') != 0;
 		},
+		
 		isHidden : function() {
 			return $(".active", this.element).css('opacity') == 0 && $(".inactive", this.element).css('opacity') == 0;
 		},
+		
 		isMoving : function() {
 			return $(".active", this.element).css('opacity') != 0 && $(".inactive", this.element).css('opacity') != 0;
 		},
+		
 		load : function(image, feed) {
 			var self = this;
 			var elem = this.element;
@@ -109,6 +115,7 @@
 							self.switchFeeds();
 					}, 350);
 				} else {
+					self._trigger('loading', 0, true);
 					imageToWaitFor.onerror = function() {
 						if (nowTicket == self.options._imageLoadTicket)
 							self.switchFeeds();
@@ -120,6 +127,7 @@
 						}, 250);
 					};
 					imageToWaitFor.src = image;
+					
 				}
 				if (feed != null) {
 					article.empty().append(self.options.contentFunc(feed));
@@ -151,10 +159,13 @@ $(".feedTitle", article).jTruncate({
 });
 
 		},
+		
 		switchFeeds : function() {
 			var self = this;
 			var elem = this.element;
 
+			self._trigger('loading', 0, false);
+			
 			var moveAway = null;
 			var moveIn = null;
 			if (self.isHidden()) {
@@ -191,19 +202,24 @@ $(".feedTitle", article).jTruncate({
 				}
 			});
 		},
+		
 		activeFeedContent : function() {
 			return $('.active .article', this.element).html();
 		},
+		
 		activeFeedItem : function() {
 			if ($('.inactive', this.element).css('z-index') == 10)
 				return $('.inactive article', this.element).data('feedItem');
 			else
 				return $('.active .article', this.element).data('feedItem');
 		},
+		
 		clean : function() {
 			var self = this;
 			var elem = this.element;
-
+			
+			self._trigger('loading', 0, false);
+			
 			$('.p8FeetCont', elem).animate({
 				opacity : 0
 			}, 200);

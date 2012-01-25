@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 feeditem demo 1</title>
+
+  <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <link href="demo.css" rel="stylesheet" type="text/css"/>
+	
+  <style type="text/css">
+    .article {
+      display: block;
+      width: 300px;
+      height: 300px;
+      border: 1px solid white;
+      background-repeat: no-repeat;
+      background-position: center 0;
+      z-index: 5;
+    }
+  </style>
+	
+	
+  <script type="text/javascript" language="javascript" src="../external/jquery-1.7.1.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery-ui.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.easing.1.3.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.busy.js"></script>
+  <script type="text/javascript" language="javascript" src="../external/jquery.jtruncate.js"></script>
+
+  <script type="text/javascript" language="javascript" src="../src/p8photosurfer.js"></script>
+  
+ 
+  <script type="text/javascript" language="javascript">
+  
+  	$(document).ready(function() {
+		$('.gallery1').hide();
+		
+		$('.item1').p8FeedItem({
+		});
+		
+		var time = 0;
+		$('.gallery1').each(function(){
+			var self = this;
+			setTimeout(function() {
+				$('.item1').p8FeedItem('load',$(self).attr('src'),$(self));
+				
+			},time);
+			time = time+2000;
+		});
+		
+	});
+	
+	
+  </script>
+  
+ 
+ 
+ 
+
+ 
+</head>
+
+<body>
+<div id="wrapper">
+
+  
+  <div>
+    <div id="mainGallery">
+      <div class="item1"></div>
+    </div>
+    
+    <img class="gallery1" src="images/cat-1.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-1.jpg"/>
+  </div>  
+</div>
+ 
+</body>
+</html>
