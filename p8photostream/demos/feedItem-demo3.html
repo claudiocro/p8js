@@ -35,18 +35,13 @@
   	$(document).ready(function() {
 		$('.gallery1').hide();
 		
-		$('.item1').p8FeedItem({
-		});
+		$('.item1').p8FeedItem({});
+		$('.item1').p8FeedItem('load',$('.first').attr('src'),$('.first'));
 		
-		var time = 0;
-		$('.gallery1').each(function(){
-			var self = this;
-			setTimeout(function() {
-				$('.item1').p8FeedItem('load',$(self).attr('src'),$(self));
-				
-			},time);
-			time = time+2000;
-		});
+		setTimeout(function() {
+			$('.item1').p8FeedItem('clean');	
+		},5000);
+		
 	});
 	
 	
@@ -68,7 +63,7 @@
       <div class="item1"></div>
     </div>
     
-    <img class="gallery1" src="images/cat-1.jpg"/>
+    <img class="gallery1 first" src="images/cat-1.jpg"/>
     <img class="gallery1" src="images/cat-2.jpg"/>
     <img class="gallery1" src="images/cat-3.jpg"/>
     <img class="gallery1" src="images/cat-4.jpg"/>

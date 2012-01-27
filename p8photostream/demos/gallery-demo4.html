@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 photostream demo 2</title>
+  <title>p8 photostream demo 4</title>
 
   <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -20,8 +20,6 @@
   <script type="text/javascript" language="javascript">
   
   	$(document).ready(function() {
-		$('.gallery1').hide();
-		
 		var datas = [
 			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
 			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
@@ -30,11 +28,9 @@
 		];
 		
 		var feedLoaderFunction = function(element,data) {
-			var child = $('<div><img src="'+data.image+'"/></div>');
-			child.hide();
-			element.empty().append(child);
-			child.fadeIn(1000);
+			element.p8FeedItem("load",data.image,data);
 		};
+		
 		
 		var requestFunction = function() {
 			var self = this;
@@ -55,19 +51,25 @@
 			$('.page-count').text("page: "+($('#mainGallery').p8JsonGallery('getCurrentCount')));
 		};
 		
+		//create feeditems
+		var createFeedContent = function(feed) {
+			return $('<div class="summary"></div>').css({opacity:0}).html('<div class="summaryCont"><span class="feedTitle">'+feed.image+'</span></div>');
+		}
+		for ( var i=0; i<8; ++i ){
+			$("#mainGallery").append($('<div></div>').p8FeedItem({contentFunc:createFeedContent}));
+		}
+		
 		$('#mainGallery')
 			.p8GalleryCreator({
 				nextSelector:		$('.prevNextCont .next'),
 				previousSelector:	$('.prevNextCont .previous'),
 				feedLoaderFunction:	feedLoaderFunction,
 				requestFunction: 	requestFunction,
-				loadingFunction:	function(evt, loading){if(loading == true){$('.prefNavBusy').fadeTo(200,.001);} else {$('.prefNavBusy').fadeTo(200,1);}},
+				loadingFunction:	function(evt, loading){if(loading == true){$('.prefNavBusy').fadeIn(200);} else {$('.prefNavBusy').fadeOut(200);}},
 				moveForwards:		galleryMove,
 				moveBackwards:		galleryMove
 			})
 			.p8SimpleGrid();
-		
-		//$('.gallery1').remove();
 	});
 	
 	
@@ -93,16 +95,7 @@
   
   <div>
     <div id="mainGallery">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
     </div>
-    
   </div>  
 </div>
  

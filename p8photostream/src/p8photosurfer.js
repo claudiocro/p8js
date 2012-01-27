@@ -14,8 +14,12 @@
 			activeCnt : null,
 			inactiveCnt : null,
 			contentFunc : defaultContentFunction,
+			showBusyOnlyIfHidden : true,
+			showBusy : false,
+			busyImage : 'images/busy.gif',
 			_timeout : null,
-			_imageLoadTicket : 0
+			_imageLoadTicket : 0,
+			_loading: false
 		},
 		
 		_create : function() {
@@ -120,12 +124,17 @@
 							self.switchFeeds();
 					}, 350);
 				} else {
-					self._trigger('loading', 0, true);
+					self._setLoading(true);
 					imageToWaitFor.onerror = function() {
-						if (nowTicket == self.options._imageLoadTicket)
+						if (nowTicket == self.options._imageLoadTicket) {
+							self._setLoading(false);
 							self.switchFeeds();
+						}
 					};
 					imageToWaitFor.onload = function() {
+						if (nowTicket == self.options._imageLoadTicket)
+							self._setLoading(false);
+						
 						setTimeout(function() {
 							if (nowTicket == self.options._imageLoadTicket)
 								self.switchFeeds();
@@ -168,11 +177,11 @@ $(".feedTitle", article).jTruncate({
 		switchFeeds : function() {
 			var self = this;
 			var elem = this.element;
-
-			self._trigger('loading', 0, false);
-			
 			var moveAway = null;
 			var moveIn = null;
+			
+			self._setLoading(false);
+			
 			if (self.isHidden()) {
 				moveAway = $(".inactive", elem);
 				moveIn = $(".active", elem);
@@ -199,7 +208,7 @@ $(".feedTitle", article).jTruncate({
 				complete : function() {
 
 					moveAway.removeClass("active");
-					moveIn.removeClass("inactive")
+					moveIn.removeClass("inactive");
 					moveAway.addClass("inactive");
 					moveIn.addClass("active");
 
@@ -223,7 +232,7 @@ $(".feedTitle", article).jTruncate({
 			var self = this;
 			var elem = this.element;
 			
-			self._trigger('loading', 0, false);
+			self._setLoading(false);
 			
 			$('.p8FeetCont', elem).animate({
 				opacity : 0
@@ -231,6 +240,22 @@ $(".feedTitle", article).jTruncate({
 			$('.article', elem).data('feedItem', null);
 			$('.article', elem).data('feedImage', null);
 			// $('article', elem).css({'background-image': ''}).empty();
+		},
+		_setLoading : function(loading) {
+			this._loading = loading;
+			if(this.options.showBusy == true) {
+				if(loading == true && ((this.options.showBusyOnlyIfHidden == true && this.isHidden() == true) || this.options.showBusyOnlyIfHidden == false)) {
+					$(this.element).busy({
+						img : this.options.busyImage,
+						hide : false
+					});
+				}
+				else {
+					$(this.element).busy('hide');
+				}
+			}
+			
+			this._trigger('loading', 0, loading);
 		}
 	});
 
@@ -301,7 +326,8 @@ $(".feedTitle", article).jTruncate({
 			imageToWaitFor.onerror = function() {
 				imageToWaitFor.onerror = "";
 				self.unload();
-			}
+			};
+			
 			imageToWaitFor.onload = function() {
 				var imgElem = $('img', elem);
 
@@ -550,6 +576,7 @@ $(".feedTitle", article).jTruncate({
 				feedLoaderFunction:			feedLoaderFunction,
 				navigationShowHideFunction:	navigationShowHideFunction,
 				loadingFunction:			null,
+				feedItemsChangedFunction:	null,
 				moveForwards:				null,
 				moveBackwards:				null
 			},poptions);
@@ -590,8 +617,8 @@ $(".feedTitle", article).jTruncate({
 					$(self).p8JsonGallery('moveBackwards');
 			};
 		
-			navigationShowHideFunction(options.nextSelector, false);
-			navigationShowHideFunction(options.previousSelector, false);
+			options.navigationShowHideFunction(options.nextSelector, false);
+			options.navigationShowHideFunction(options.previousSelector, false);
 			options.nextSelector.bind('click',moveForwards);
 			options.previousSelector.bind('click',moveBackwards);
 			
@@ -601,11 +628,12 @@ $(".feedTitle", article).jTruncate({
 				moveBackwards:function(){if(options.moveForwards != null){options.moveBackwards.call(this);}updateNavigation.call(this);},
 				feedLoaderFunction: options.feedLoaderFunction,
 				requestFunction: options.requestFunction,
-				loading: options.loadingFunction
+				loading: options.loadingFunction,
+				feedItemsChanged:function(){updateNavigation.call(this);if(options.feedItemsChangedFunction != null){options.feedItemsChangedFunction.call(this);}}
 			});
 		
 		
-			$(this).p8JsonGallery('reload');
+			//$(this).p8JsonGallery('reload');
 			
 			return $(this);
 		});

@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 photostream demo 2</title>
+  <title>p8 photostream demo 3</title>
 
   <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -22,12 +22,30 @@
   	$(document).ready(function() {
 		$('.gallery1').hide();
 		
-		var datas = [
+		var datas = [];
+		datas.push([
 			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
 			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
 			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
 			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'}
-		];
+		]);
+		
+		datas.push([
+			{image:'images/cat-6.jpg'},{image:'images/cat-8.jpg'},{image:'images/cat-1.jpg'},{image:'images/cat-5.jpg'},
+			{image:'images/cat-2.jpg'},{image:'images/cat-4.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-3.jpg'}
+		]);
+		
+		datas.push([
+			{image:'images/cat-2.jpg'},{image:'images/cat-4.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-3.jpg'},
+			{image:'images/cat-6.jpg'},{image:'images/cat-8.jpg'},{image:'images/cat-1.jpg'},{image:'images/cat-5.jpg'}
+		]);
+		
+		datas.push([
+			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
+			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
+			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
+			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'}
+		]);
 		
 		var feedLoaderFunction = function(element,data) {
 			var child = $('<div><img src="'+data.image+'"/></div>');
@@ -40,16 +58,29 @@
 			var self = this;
 			self._preProcessResponse();
 			
-			setTimeout(function() {
-				self.allFeeds = self.allFeeds.concat(datas);
+			var params = self.element.data("galleryParam");
+			
+			if(params.page < datas.length) {
+			
+				setTimeout(function() {
+					self.allFeeds = self.allFeeds.concat(datas[params.page]);
+					
+					params.page = params.page+1;
+					self.element.data("galleryParam", params);
+					
+					self._postProcessResponse();
 				
+				}, 3000);
+			} else {
 				self.feedStreamEnd = true;		
 				self._postProcessResponse();
-			
-			}, 3000);
+			}
 				
 
 		}
+		
+  		var reqParams = {page:0};
+  		$('#mainGallery').data('galleryParam',reqParams);
 		
 		var galleryMove = function() {
 			$('.page-count').text("page: "+($('#mainGallery').p8JsonGallery('getCurrentCount')));
@@ -61,11 +92,13 @@
 				previousSelector:	$('.prevNextCont .previous'),
 				feedLoaderFunction:	feedLoaderFunction,
 				requestFunction: 	requestFunction,
-				loadingFunction:	function(evt, loading){if(loading == true){$('.prefNavBusy').fadeTo(200,.001);} else {$('.prefNavBusy').fadeTo(200,1);}},
+				loadingFunction:	function(evt, loading){if(loading == true){$('.prefNavBusy').fadeIn(200);} else {$('.prefNavBusy').fadeOut(200);}},
 				moveForwards:		galleryMove,
 				moveBackwards:		galleryMove
 			})
 			.p8SimpleGrid();
+		
+		
 		
 		//$('.gallery1').remove();
 	});
@@ -103,6 +136,22 @@
       <div></div>
     </div>
     
+    <img class="gallery1" src="images/cat-1.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-8.jpg"/>
+    <img class="gallery1" src="images/cat-7.jpg"/>
+    <img class="gallery1" src="images/cat-6.jpg"/>
+    <img class="gallery1" src="images/cat-5.jpg"/>
+    <img class="gallery1" src="images/cat-4.jpg"/>
+    <img class="gallery1" src="images/cat-3.jpg"/>
+    <img class="gallery1" src="images/cat-2.jpg"/>
+    <img class="gallery1" src="images/cat-1.jpg"/>
   </div>  
 </div>
  

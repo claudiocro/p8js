@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 feeditem demo 1</title>
+  <title>p8 feeditem demo 2</title>
 
   <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -33,37 +33,33 @@
   <script type="text/javascript" language="javascript">
   
   	$(document).ready(function() {
-		$('.gallery1').hide();
+		
+		$('.prefNavBusy').hide();
 		
 		$('.item1').p8FeedItem({
+			showBusy: true,
 			loading: function(evt, loading) {
 				if(loading == true){
 					$('.prefNavBusy').fadeIn(200);
-				} else {
+				}
+				else {
 					$('.prefNavBusy').fadeOut(200);
 				}
 			}
 		});
 		
-		
-		$('.item1').busy({
-			img : 'images/busy.gif',
-			hide : false
-		});
-		
-		
-		var time = 0;
-		$('.gallery1').each(function(){
-			var self = this;
-			setTimeout(function() {
-				$('.item1').p8FeedItem('load',$(self).attr('src'),$(self));
-			}, time);
-			time = time+5000;
-		});
-		
+		loadNext(1,6000);
 	});
 	
-	
+	var loadNext = function(cnt,time) {
+		if(cnt <=6) {
+			$('.item1').p8FeedItem('load','images/big-'+cnt+'.jpg',{text:'texta'});
+	    	setTimeout(function() {
+				loadNext(++cnt, time+2000)
+			}, time);
+		}
+	}
+  	
   </script>
   
  
@@ -88,12 +84,7 @@
       <div class="item1"></div>
     </div>
     
-    <img class="gallery1" src="images/big-1.jpg"/>
-    <img class="gallery1" src="images/big-2.jpg"/>
-    <img class="gallery1" src="images/big-3.jpg"/>
-    <img class="gallery1" src="images/big-4.jpg"/>
-    <img class="gallery1" src="images/big-5.jpg"/>
-    <img class="gallery1" src="images/big-6.jpg"/>
+    
   </div>  
 </div>
  
