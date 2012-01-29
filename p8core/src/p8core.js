@@ -1,5 +1,5 @@
 /*
- *  p8 photosurfer  0.7.1
+ *  p8 core  0.1.0
  * 
  */
 

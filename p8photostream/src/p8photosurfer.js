@@ -419,6 +419,8 @@ $(".feedTitle", article).jTruncate({
 			this.allFeeds = new Array();
 			this.feedStreamEnd = false;
 
+			this._trigger('reload');
+			
 			this.moveForwards(true);
 		},
 
@@ -586,6 +588,7 @@ $(".feedTitle", article).jTruncate({
 			return $(self).p8FeedItem({
 				showBusyOnlyIfHidden : options.showBusyOnlyIfHidden,
 				showBusy : options.showBusy,
+//TODO: busyImage
 			}).p8FeedItem('load', feed.image,feed.content);
 		});
 	};
@@ -618,6 +621,7 @@ $(".feedTitle", article).jTruncate({
 				navigationShowHideFunction:	navigationShowHideFunction,
 				loadingFunction:			null,
 				feedItemsChangedFunction:	null,
+				reloadFunction:				null,
 				moveForwards:				null,
 				moveBackwards:				null
 			},poptions);
@@ -670,6 +674,7 @@ $(".feedTitle", article).jTruncate({
 				feedLoaderFunction: options.feedLoaderFunction,
 				requestFunction: options.requestFunction,
 				loading: options.loadingFunction,
+				reload: function(){if(options.reloadFunction != null){options.reloadFunction.call(this);} updateNavigation.call(this);},
 				feedItemsChanged:function(){updateNavigation.call(this);if(options.feedItemsChangedFunction != null){options.feedItemsChangedFunction.call(this);}}
 			});
 		
