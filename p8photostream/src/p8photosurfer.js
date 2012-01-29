@@ -1,6 +1,13 @@
 /*
- *  p8 photosurfer  0.5
+ *  p8 photosurfer  0.7.1
  * 
+ * Depends on:
+ * 
+ * - jquery
+ * - jquery-ui
+ * - jquery-busy
+ * 
+ * - p8core
  */
 
 (function($) {
@@ -16,7 +23,7 @@
 			contentFunc : defaultContentFunction,
 			showBusyOnlyIfHidden : true,
 			showBusy : false,
-			busyImage : 'images/busy.gif',
+			busyImage : null,
 			_timeout : null,
 			_imageLoadTicket : 0,
 			_loading: false
@@ -245,10 +252,11 @@ $(".feedTitle", article).jTruncate({
 			this._loading = loading;
 			if(this.options.showBusy == true) {
 				if(loading == true && ((this.options.showBusyOnlyIfHidden == true && this.isHidden() == true) || this.options.showBusyOnlyIfHidden == false)) {
-					$(this.element).busy({
-						img : this.options.busyImage,
-						hide : false
-					});
+					var busyP = {hide : false};
+					if(this.options.busyImage != null)
+						$extend(busyP, {img:this.options.busyImage});
+					
+					$(this.element).busy(busyP);
 				}
 				else {
 					$(this.element).busy('hide');
@@ -490,14 +498,14 @@ $(".feedTitle", article).jTruncate({
 			var self = this;
 			
 			self.isRetrivingFeed = true;
-			self._trigger('loading', 0, true);
+			self._trigger('loading', null, {loading:true});
 		},
 
 		_postProcessResponse : function() {
 			var self = this;
 			
 			self.isRetrivingFeed = false;
-			self._trigger('loading', 0, false);
+			self._trigger('loading', null, {loading:false});
 			if (self.forceMoveForeward == true) {
 				self.moveForwards();
 			}
@@ -510,6 +518,11 @@ $(".feedTitle", article).jTruncate({
 
 (function($) {
 
+	/*
+	 * Simple grid sollte in eine funktion umgewandelt werden. 
+	 *  
+	 */
+	
 	$.widget("ui.p8SimpleGrid", {
 		options : {
 			contentSelector : null,
@@ -551,6 +564,33 @@ $(".feedTitle", article).jTruncate({
 }(jQuery));
 
 
+(function($) {
+	
+	var extractFunction = function(){
+		var image = $.extractUrl($(this).css("background-image"));
+		var r = ({image: image, content: $(this).html()}); 
+		$(this).css('background-image', 'none').empty();
+		return r;
+	};
+	
+	$.fn.p8CreateAutoLoadFeedItem = function(poptions) {
+		var options = jQuery.extend ({
+				extractFunction:extractFunction,
+				showBusyOnlyIfHidden : true,
+				showBusy : false,
+			},poptions);
+		
+		return this.each (function () {
+			var self = this;
+			var feed = options.extractFunction.call(self);
+			return $(self).p8FeedItem({
+				showBusyOnlyIfHidden : options.showBusyOnlyIfHidden,
+				showBusy : options.showBusy,
+			}).p8FeedItem('load', feed.image,feed.content);
+		});
+	};
+	
+}(jQuery));
 
 
 (function($) {
@@ -570,6 +610,7 @@ $(".feedTitle", article).jTruncate({
 	$.fn.p8GalleryCreator = function(poptions) {
 		var options = jQuery.extend ({
 				datas:						null,
+				reload:						false,
 				nextSelector:				null,
 				previousSelector:			null,
 				requestFunction:			null,
@@ -607,20 +648,20 @@ $(".feedTitle", article).jTruncate({
 		return this.each (function () {
 			var self = this;
 			
-			var moveForwards = function() {
-				if($(self).p8JsonGallery('canMoveForwards'))
-					$(self).p8JsonGallery('moveForwards');
-			};
-			
-			var moveBackwards = function() {
-				if($(self).p8JsonGallery('canMoveBackwards'))
-					$(self).p8JsonGallery('moveBackwards');
-			};
-		
-			options.navigationShowHideFunction(options.nextSelector, false);
-			options.navigationShowHideFunction(options.previousSelector, false);
-			options.nextSelector.bind('click',moveForwards);
-			options.previousSelector.bind('click',moveBackwards);
+			if(options.nextSelector != null) {
+				options.navigationShowHideFunction(options.nextSelector, false);
+				options.nextSelector.bind('click', function() {
+					if($(self).p8JsonGallery('canMoveForwards'))
+						$(self).p8JsonGallery('moveForwards');
+				});
+			}
+			if(options.previousSelector != null) {
+				options.navigationShowHideFunction(options.previousSelector, false);
+				options.previousSelector.bind('click', function() {
+					if($(self).p8JsonGallery('canMoveBackwards'))
+						$(self).p8JsonGallery('moveBackwards');
+				});
+			}
 			
 			
 			$(this).p8JsonGallery({
@@ -632,8 +673,8 @@ $(".feedTitle", article).jTruncate({
 				feedItemsChanged:function(){updateNavigation.call(this);if(options.feedItemsChangedFunction != null){options.feedItemsChangedFunction.call(this);}}
 			});
 		
-		
-			//$(this).p8JsonGallery('reload');
+			if(options.reload)
+				$(this).p8JsonGallery('reload');
 			
 			return $(this);
 		});
@@ -641,36 +682,3 @@ $(".feedTitle", article).jTruncate({
 	
 })(jQuery);
 
-
-$.extend({
-	getUrlVars : function() {
-		var vars = [], hash;
-		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-		for ( var i = 0; i < hashes.length; i++) {
-			hash = hashes[i].split('=');
-			vars.push(hash[0]);
-			vars[hash[0]] = hash[1];
-		}
-		return vars;
-	},
-	getUrlVar : function(name) {
-		return $.getUrlVars()[name];
-	}
-});
-
-$.extend({
-	scaleSize : function(maxW, maxH, currW, currH) {
-		var ratio = currH / currW;
-		var maxRatio = maxH / maxW;
-
-		if (currW >= maxW && ratio <= maxRatio) {
-			currW = maxW;
-			currH = currW * ratio;
-		} else if (currH >= maxH) {
-			currH = maxH;
-			currW = currH / ratio;
-		}
-
-		return [ currW, currH ];
-	}
-});

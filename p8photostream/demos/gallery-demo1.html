@@ -5,15 +5,16 @@
 
   <title>p8 photostream demo 1</title>
 
-  <link href="../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <link href="../../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
 	
-  <script type="text/javascript" language="javascript" src="../external/jquery-1.7.1.js"></script>
-  <script type="text/javascript" language="javascript" src="../external/jquery-ui.js"></script>
-  <script type="text/javascript" language="javascript" src="../external/jquery.easing.1.3.js"></script>
-  <script type="text/javascript" language="javascript" src="../external/jquery.busy.js"></script>
-  <script type="text/javascript" language="javascript" src="../external/jquery.jtruncate.js"></script>
+  <script type="text/javascript" language="javascript" src="../../external/jquery-1.7.1.js"></script>
+  <script type="text/javascript" language="javascript" src="../../external/jquery-ui.js"></script>
+  <script type="text/javascript" language="javascript" src="../../external/jquery.easing.1.3.js"></script>
+  <script type="text/javascript" language="javascript" src="../../external/jquery.busy.js"></script>
+  <script type="text/javascript" language="javascript" src="../../external/jquery.jtruncate.js"></script>
 
+  <script type="text/javascript" language="javascript" src="../../p8core/src/p8core.js"></script>
   <script type="text/javascript" language="javascript" src="../src/p8photosurfer.js"></script>
   
  
@@ -24,6 +25,7 @@
 		
 		$('#mainGallery').p8GalleryCreator({
 			datas: $('.gallery1'),
+			reload: true,
 			nextSelector: $('.prevNextCont .next'),
 			previousSelector: $('.prevNextCont .previous')
 		});

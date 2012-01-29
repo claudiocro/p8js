@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 feeditem demo 3</title>
+  <title>p8 feeditem demo 4</title>
 
   <link href="../../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -21,15 +21,7 @@
   <script type="text/javascript" language="javascript">
   
   	$(document).ready(function() {
-		$('.gallery1').hide();
-		
-		$('.item1').p8FeedItem({});
-		$('.item1').p8FeedItem('load',$('.first').attr('src'),$('.first'));
-		
-		setTimeout(function() {
-			$('.item1').p8FeedItem('clean');	
-		},10000);
-		
+		$('#mainGallery div').p8CreateAutoLoadFeedItem({showBusy: true});
 	});
 	
 	
@@ -48,25 +40,18 @@
   
   <div>
     <div id="mainGallery">
-      <div class="item1"></div>
+      <div style="background-image:url(images/cat-1.jpg)"><div></div></div>
+  	  <div style="background-image:url(images/cat-2.jpg)"><div>
+  	    <div class="nav-cnt">
+  	    <h2>lomography</h2>
+  	    <ul>
+  	      <li><a href="#">recent lomography photos</a></li>
+  	      <li><a href="#">popular lomography photos</a></li>
+  	      <li><a href="#">selected lomography photos</a></li>
+    	</ul>
+    	</div>
+  	  </div></div>
     </div>
-    
-    <img class="gallery1 first" src="images/cat-1.jpg"/>
-    <img class="gallery1" src="images/cat-2.jpg"/>
-    <img class="gallery1" src="images/cat-3.jpg"/>
-    <img class="gallery1" src="images/cat-4.jpg"/>
-    <img class="gallery1" src="images/cat-5.jpg"/>
-    <img class="gallery1" src="images/cat-6.jpg"/>
-    <img class="gallery1" src="images/cat-7.jpg"/>
-    <img class="gallery1" src="images/cat-8.jpg"/>
-    <img class="gallery1" src="images/cat-8.jpg"/>
-    <img class="gallery1" src="images/cat-7.jpg"/>
-    <img class="gallery1" src="images/cat-6.jpg"/>
-    <img class="gallery1" src="images/cat-5.jpg"/>
-    <img class="gallery1" src="images/cat-4.jpg"/>
-    <img class="gallery1" src="images/cat-3.jpg"/>
-    <img class="gallery1" src="images/cat-2.jpg"/>
-    <img class="gallery1" src="images/cat-1.jpg"/>
   </div>  
 </div>
  

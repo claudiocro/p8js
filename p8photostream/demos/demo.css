@@ -18,7 +18,7 @@ a {
 #navigationCont {
 	margin: 0 auto;
 	margin-bottom: 10px;
-	width: 1283px; /* #galleryContent + 30px */
+	width: 1283px;
 }
 
 #galleryContent {
@@ -57,7 +57,7 @@ a {
 	padding-bottom:15px;
 }
 
-#mainGallery .col .article {
+#mainGallery .article {
   display: block;
   width:300px;
   height:300px;
@@ -66,34 +66,6 @@ a {
   background-position: center 0;
   z-index:5;
 }
-
-#mainGallery .col .article .summary {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  bottom: 15px;
-  text-align: right;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  height: 10px;
-  z-index: 12;
-  
-  background-color:#FFFFFF;
-}
-
-
-#mainGallery .col .article .summary .summaryCont{
-  bottom:0;
-  right:0;
-  position:absolute;
-  padding-left:5px;
-  padding-right:5px;
-}
-
-#mainGallery .col .article .summary .innerCont{
-	padding: 0 5px 5px 5px;
-}
-
 
 #navigationCont .prevNextCont {
   padding-top: 20px;
