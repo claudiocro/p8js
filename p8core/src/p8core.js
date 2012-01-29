@@ -1,6 +1,8 @@
 /*
  *  p8 core  0.1.0
  * 
+ * Depends:
+ * jquery
  */
 
 $.extend({
