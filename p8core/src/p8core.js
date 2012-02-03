@@ -5,6 +5,7 @@
  * jquery
  */
 
+
 $.extend({
 	nl2br : function(text){
 		text = escape(text);
