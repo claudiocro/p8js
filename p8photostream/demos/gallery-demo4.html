@@ -25,7 +25,8 @@
 			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
 			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
 			{image:'images/cat-5.jpg'},{image:'images/cat-6.jpg'},{image:'images/cat-7.jpg'},{image:'images/cat-8.jpg'},
-			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'}
+			{image:'images/cat-1.jpg'},{image:'images/cat-2.jpg'},{image:'images/cat-3.jpg'},{image:'images/cat-4.jpg'},
+			{image:'images/cat-2.jpg'}
 		];
 		
 		var requestFunction = function() {
@@ -60,7 +61,7 @@
 				reload:				true,
 				nextSelector:		$('.prevNextCont .next'),
 				previousSelector:	$('.prevNextCont .previous'),
-				feedLoaderFunction:	function(element,data) {element.p8FeedItem("load",data.image,data);},
+				feedLoaderFunction:	function(element,data) {if(data != null){element.p8FeedItem("load",data.image,data);} else {element.p8FeedItem("clean")}},
 				requestFunction: 	requestFunction,
 				loadingFunction:	function(evt, p){$('.prefNavBusy').fadeTo(200, (p.loading) ? 1 : 0 );},
 				moveForwards:		galleryMove,

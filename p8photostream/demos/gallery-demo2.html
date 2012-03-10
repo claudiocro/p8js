@@ -31,7 +31,12 @@
 		];
 		
 		var feedLoaderFunction = function(element,data) {
-			var child = $('<div><img src="'+data.image+'"/></div>');
+			var child= null;
+			if(data != null)
+				 child = $('<div><img src="'+data.image+'"/></div>');
+			else
+				child = $('<div><img /></div>');
+			
 			child.hide();
 			element.empty().append(child);
 			child.fadeIn(1000);
