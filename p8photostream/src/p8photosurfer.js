@@ -1,5 +1,5 @@
 /*
- *  p8 photosurfer  0.9.0
+ *  p8 photosurfer  0.9.6
  * 
  * Depends on:
  * 
@@ -239,6 +239,8 @@ $(".feedTitle", article).jTruncate({
 			var self = this;
 			var elem = this.element;
 			
+			this.options._imageLoadTicket = this.options._imageLoadTicket + 1;
+			
 			self._setLoading(false);
 			
 			$('.p8FeetCont', elem).animate({
@@ -473,7 +475,7 @@ elem
 		},
 
 		canMoveForwards : function() {
-			return (this.currentCount <= this.options.maxCount && this.allFeeds.length>0 && (this.total * (this.currentCount)) <= this.allFeeds.length);
+			return (this.currentCount <= this.options.maxCount && this.allFeeds.length>0 && (this.total * (this.currentCount)) < this.allFeeds.length);
 		},
 
 		moveForwards : function(force) {
@@ -490,7 +492,7 @@ elem
 			*/
 
 			// preload feed if necessary
-			if (self.feedStreamEnd != true && self.allFeeds.length - (self.total * 5) < self.currentCount * self.total && !self.isRetrivingFeed) {
+			if (self.feedStreamEnd != true && self.allFeeds.length - (self.total * 4) < self.currentCount * self.total && !self.isRetrivingFeed) {
 				self.isRetrivingFeed = true;
 
 				self.ajaxTickedId++;
@@ -763,6 +765,8 @@ elem
 				options.nextSelector.bind('click', function() {
 					if($(self).p8JsonGallery('canMoveForwards'))
 						$(self).p8JsonGallery('moveForwards');
+					
+					return false;
 				});
 			}
 			
@@ -771,6 +775,8 @@ elem
 				options.previousSelector.bind('click', function() {
 					if($(self).p8JsonGallery('canMoveBackwards'))
 						$(self).p8JsonGallery('moveBackwards');
+					
+					return false;
 				});
 			}
 			
@@ -785,6 +791,7 @@ elem
 							index--;
 						} 
 						updateSingleNavigation.call(self);
+						return false;
 					});
 				}
 				
@@ -801,6 +808,7 @@ elem
 							}
 							updateSingleNavigation.call(self);
 						}
+						return false;
 					});
 				}
 				
@@ -817,13 +825,14 @@ elem
 							if(options.singleCompareFunction(this, allFeeds[i])) {
 							//if(src == $(allFeeds[i]).attr("src")) {
 								index = i;
-								options.singleClickSelectorFunction.call(self, allFeeds[index]);
+								options.singleClickSelectorFunction.call(self, allFeeds[index],index);
 								break;
 							}
 								
 						}
 					}
 					updateSingleNavigation.call(self);
+					return false;
 				});
 			}
 			

@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <title>p8 photostream demo 1</title>
+  <title>p8 photostream widget demo 2</title>
 
   <link href="../../external/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="demo.css" rel="stylesheet" type="text/css"/>
@@ -21,14 +21,6 @@
   <script type="text/javascript" language="javascript">
   
   	$(document).ready(function() {
-		$('.gallery1').hide();
-		
-		$('#mainGallery').p8GalleryCreator({
-			datas: $('.gallery1'),
-			reload: true,
-			nextSelector: $('.prevNextCont .next'),
-			previousSelector: $('.prevNextCont .previous')
-		});
 		
 	});
 	
@@ -52,17 +44,22 @@
   
   
   <div>
+    <div class="p8GalleryWidget"> </div>
     <div id="mainGallery">
-      <span></span>
-      <span></span>
     </div>
-    
-    <img class="gallery1" src="images/cat-1.jpg"/>
-    <img class="gallery1" src="images/cat-2.jpg"/>
-    <img class="gallery1" src="images/cat-3.jpg"/>
-    <img class="gallery1" src="images/cat-4.jpg"/>
   </div>  
 </div>
+ 
+<script type="text/javascript">
+	var p8WidgetType = "demo-2";
+	var pCat = "365project";
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '../src/p8photosurfer-widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+ </script>
  
 </body>
 </html>
