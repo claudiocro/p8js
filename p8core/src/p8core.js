@@ -6,7 +6,7 @@
  */
 
 
-$.extend({
+$.extend({ 
 	nl2br : function(text){
 		text = escape(text);
 		if(text.indexOf('%0D%0A') > -1){
