@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 core demo 1</title>
+
+ <link href="../../libs/jquery-ui/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css"/>
+
+  <script type="text/javascript" language="javascript" src="../../libs/jquery/jquery.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-validate/jquery.validate.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8core.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8ui.js"></script>
+ 
+ 
+  <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+          	var verticalCont = $("#horizontalCont").clone();
+          	verticalCont.attr('id', "verticalCont");
+          	
+          	$("#wrapper").append('<hr style="clear:both">');
+          	$("#wrapper").append(verticalCont);
+          	
+			$("#horizontalCont").p8SimpleGrid({horizontal: true,totalInRow:4});
+          	$("#verticalCont").p8SimpleGrid({totalInRow:4});
+      		
+      });
+  </script>
+    
+  <style>
+  	
+	#horizontalCont DIV {
+		float: left;
+    }
+    
+    .gridded-content .row{
+    	clear: left;
+    	border: 1px solid green;
+    	padding-left: 15px;
+    	padding-bottom: 10px;
+    }
+    
+    
+    #verticalCont DIV {
+    }
+    
+    .gridded-content .col{
+    	float: left;
+    	border: 1px solid green;
+    	padding-left: 15px;
+    	padding-bottom: 10px;
+    }
+    
+    .item {
+		position: relative;
+		border: 1px solid black;
+		width: 50px;
+		height: 50px;
+		margin-right: 15px;
+		background-repeat: no-repeat;
+		background-position: center 0;
+}
+
+  </style>
+    
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="horizontalCont">
+    
+  	<div id="hc1"><div class="item">1</div></div>
+  	<div id="hc2"><div class="item">2</div></div>
+  	<div id="hc3"><div class="item">3</div></div>
+  	<div id="hc4"><div class="item">4</div></div>
+  	
+  	<div id="hc5"><div class="item">5</div></div>
+  	<div id="hc6"><div class="item">6</div></div>
+  	<div id="hc7"><div class="item">7</div></div>
+  	<div id="hc8"><div class="item">8</div></div>
+  	<div id="hc9"><div class="item">9</div></div>
+  	<div id="hc10"><div class="item">10</div></div>
+  	<div id="hc11"><div class="item">11</div></div>
+  	<div id="hc12"><div class="item">12</div></div>
+  </div>
+</div>
+ 
+</body>
+</html>
