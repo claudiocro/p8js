@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 core demo 1</title>
+
+ <link href="../../libs/jquery-ui/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css"/>
+
+  <script type="text/javascript" language="javascript" src="../../libs/jquery/jquery.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-validate/jquery.validate.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8core.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8ui.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8infoTip.js"></script>
+ 
+  <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+
+      		$('#input1').p8InfoTip().click(function() {
+      		  $(this).data('p8InfoTip').show($(this).val());
+      		});
+      		
+      		
+      		$('#input2').p8InfoTip({'removeOnFocusLost':false}).click(function() {
+      		  $(this).data('p8InfoTip').show($(this).val());
+      		});
+      		
+      		$('#input3').p8InfoTip({'topAlign':'left'}).click(function() {
+      		  $(this).data('p8InfoTip').show($(this).val());
+      		});
+      		
+      });
+  </script>
+    
+    
+  <style>
+  
+	.error-tip .content { 
+		width: 150px; 
+		padding: 5px; 
+		border: 2px solid #ce6f6f; 
+		-moz-border-radius: 5px; 
+		-webkit-border-radius: 5px; 
+		background: #000000; 
+		color: #FFFFFF; 
+		margin-top: -1px;
+	}
+	
+	.error-tip .top {
+		height: 14px; 
+		text-align:center;
+		margin-left:5px;
+		margin-right:5px;
+	}
+
+	
+  </style>
+    
+</head>
+
+<body>
+<div id="wrapper">
+  <form id="form1">
+  	<div>
+  	  <h3>Default infoTip</h3>
+  	  <input id="input1" type="text" title="MyValue" value="Real Value1" />
+  	</div>
+  	<div>
+  	  <h3>Does not remove on focus lost</h3>
+  	  <input id="input2" type="text" title="MyValue2" value="Real Value2"/>
+  	</div>
+  	
+  	<div>
+  	  <h3>Top align left</h3>
+  	  <input id="input3" type="text" title="MyValue3" value="Real Value3"/>
+  	</div>
+  	
+  </form>
+</div>
+ 
+</body>
+</html>

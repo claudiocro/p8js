@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>p8infoTip Test Suite</title>
+  <!-- Load local jQuery, removing access to $ (use jQuery, not $). -->
+  <script src="../libs/jquery/jquery.js"></script>
+  <script src="../libs/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+  <script>jQuery.noConflict()</script>
+  <!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
+  <link rel="stylesheet" href="../libs/qunit/qunit.css" media="screen">
+  <script src="../libs/qunit/qunit.js"></script>
+  <!-- Load local lib and tests. -->
+  <script src="../src/p8core.js"></script>
+  <script src="../src/p8ui.js"></script>
+  <script src="../src/p8infoTip.js"></script>
+  <script src="p8infoTip_test.js"></script>
+</head>
+<body>
+  <h1 id="qunit-header">p8infoTip Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+    <form id="form1">
+  		<div><input id="input1" type="text" title="MyValue" /></div>
+  		<div><input id="input2" type="text" title="MyValue2" value="Real Value2"/></div>
+  		<div><input id="input3" type="text" title="MyValue3" value="Real Value3"/></div>
+  	</form>
+  </div>
+</body>
+</html>

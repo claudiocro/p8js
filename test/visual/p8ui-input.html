@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 core demo 1</title>
+
+ <link href="../../libs/jquery-ui/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css"/>
+
+  <script type="text/javascript" language="javascript" src="../../libs/jquery/jquery.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-validate/jquery.validate.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8core.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8ui.js"></script>
+ 
+  <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+
+          
+        //p8uiTwoColPanel
+        var simpleInput = $('<div/>');
+        simpleInput.p8uiTwoColPanel({
+          data : {value1:'val value1'},
+          valueFields : [{value:'value1',title:'title1',type:'text'}],
+          prefix : 'testprefix'
+        });
+        
+        $('#form1').append(simpleInput);
+        
+        
+        var simpleSelect = $('<div/>');
+        simpleSelect.p8uiTwoColPanel({
+          data : {value1:'Second'},
+          valueFields : [{value:'value1',title:'title1',type:'select', types:['First','Second']}],
+          prefix : 'testprefix'
+        });
+        
+        $('#form1').append(simpleSelect);
+        
+        
+        
+        var simpleValueAndSelect = $('<div/>');
+        simpleValueAndSelect.p8uiTwoColPanel({
+          data : {value1:'val value1', value2: 'val value2'},
+          valueFields : [{value:'value2',title:'title1',type:'text'},{value:'value1',title:'title1',type:'select', types:['First','Second']}],
+          prefix : 'testprefix'
+        });
+        
+        $('#form1').append(simpleValueAndSelect);
+        
+      });
+    </script>
+</head>
+
+<body>
+<div id="wrapper">
+  <form id="form1">
+  </form>
+</div>
+ 
+</body>
+</html>

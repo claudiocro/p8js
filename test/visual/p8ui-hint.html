@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>p8 core demo 1</title>
+
+ <link href="../../libs/jquery-ui/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css"/>
+
+  <script type="text/javascript" language="javascript" src="../../libs/jquery/jquery.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../libs/jquery-validate/jquery.validate.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8core.js"></script>
+  <script type="text/javascript" language="javascript" src="../../src/p8ui.js"></script>
+ 
+  <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+
+      		$('#form1 input').p8AddHint();
+      });
+    </script>
+</head>
+
+<body>
+<div id="wrapper">
+  <form id="form1">
+  	<input type="text" title="MyValue" />
+  </form>
+</div>
+ 
+</body>
+</html>
