@@ -3,47 +3,42 @@
  * 
  * */
 
-
-
 (function($) {
 
   $.fn.p8SimpleGrid = function(poptions) {
-    
+
     var options = jQuery.extend({
-      horizontal: false,
+      horizontal : false,
       totalInRow : 4
     }, poptions);
-    
+
     var elem = this;
 
-    elem
-      .addClass('p8SimpleGrid').addClass('gridded-content')
-      .css({'z-index' : 2});
-    
+    elem.addClass('p8SimpleGrid').addClass('gridded-content').css({
+      'z-index' : 2
+    });
+
     var currentCol = 0;
     var currentRow = 0;
     var currentColE = null;
     var classPrefix = (options.horizontal === false) ? "col" : "row";
     return this.children().each(function() {
-      
-      
-      
-      if (currentRow === 0) {
-        currentColE = $('<div></div>').addClass("grid").addClass(classPrefix).addClass(classPrefix+'-'+currentCol);
+
+      if(currentRow === 0) {
+        currentColE = $('<div></div>').addClass("grid").addClass(classPrefix).addClass(classPrefix + '-' + currentCol);
       }
       currentColE.append($(this));
 
       elem.append(currentColE);
-      if (currentRow === options.totalInRow - 1) {
+      if(currentRow === options.totalInRow - 1) {
         currentCol++;
         currentRow = 0;
-      } else {
+      }
+      else {
         currentRow++;
       }
-    });    
+    });
   };
-  
-  
 
 }(jQuery));
 
@@ -61,20 +56,20 @@
       var selfElem = jQuery(this);
       var title = this.title;
 
-      if (selfElem.val() === '') {
+      if(selfElem.val() === '') {
         selfElem.addClass('hint_text');
         selfElem.val(title);
       }
 
       selfElem.focus(function() {
-        if (selfElem.val() === title) {
+        if(selfElem.val() === title) {
           selfElem.removeClass('hint_text');
           selfElem.val('');
         }
       });
 
       selfElem.blur(function() {
-        if (selfElem.val() === '') {
+        if(selfElem.val() === '') {
           selfElem.addClass('hint_text');
           selfElem.val(title);
         }
@@ -83,7 +78,6 @@
   };
 
 }(jQuery));
-
 
 (function($) {
 
@@ -109,33 +103,33 @@
       var innerRow = null;
       var length = options.valueFields.length;
       var colId = 0;
-      for ( var i = 0; i < length; i++) {
+      for( var i = 0; i < length; i++) {
 
         var valueField = options.valueFields[i];
-        if (i % 2 === 0) {
+        if(i % 2 === 0) {
           colId = 0;
           innerRow = $('<div class="' + options.innerClass + ' edit p8TwoCol-row-' + i / 2 + ' ' + length + '" />');
-          if (i === 0) {
+          if(i === 0) {
             innerRow.addClass("p8TwoCol-row-first");
           }
 
           selfElem.append($('<div class="' + options.innerClass + '-wrap" />').append(innerRow));
         }
 
-        if (i === length - 1 && innerRow !== null){
+        if(i === length - 1 && innerRow !== null) {
           innerRow.addClass("p8TwoCol-row-last");
         }
 
-        if (valueField.type === "text") {
+        if(valueField.type === "text") {
           innerRow.append($('<span />').addClass('col-' + colId).p8ValueField({
             data : options.data,
             valueField : valueField.value,
             prefix : options.prefix,
             title : valueField.title,
-            rules: valueField.rules
+            rules : valueField.rules
           }));
         }
-        else if (valueField.type === "select") {
+        else if(valueField.type === "select") {
           innerRow.append($("<span />").addClass('col-' + colId).p8TypeSelect({
             types : valueField.types,
             data : options.data,
@@ -162,9 +156,6 @@
 
 }(jQuery));
 
-
-
-
 (function($) {
 
   /*
@@ -188,7 +179,7 @@
     return this.each(function() {
       var selfElem = $(this);
 
-      if (options.contentTop !== null) {
+      if(options.contentTop !== null) {
         var top = $('<div class="p8-simpleSearchPanel-top" />').append(options.contentTop);
         selfElem.append(top);
       }
@@ -197,22 +188,22 @@
 
       searchField.keypress(function(e) {
         var c = e.which ? e.which : e.keyCode;
-        if (c === 13) {
-          if ($.isFunction(options.okFunc)) {
+        if(c === 13) {
+          if($.isFunction(options.okFunc)) {
             options.okFunc.call(this);
           }
         }
       });
 
       var input = $('<div class="p8-simpleSearchPanel-field" />');
-      if (options.contentRight !== null) {
+      if(options.contentRight !== null) {
         input.append(options.contentRight);
       }
-      
+
       input.append(searchField);
       selfElem.append(input);
 
-      if (options.buttons !== null) {
+      if(options.buttons !== null) {
         var buttons = $('<div class="p8-simpleSearchPanel-button" />').append($('<button />').html(options.cancelText).button().click(function() {
 
         }));
@@ -223,8 +214,6 @@
   };
 
 }(jQuery));
-
-
 
 (function($) {
 
@@ -241,7 +230,6 @@
     $(this).addClass("dirty");
   }
 
-  
   //creates a input element
   var p8ValueField = {
     options : {
@@ -256,13 +244,13 @@
       this.element.change(addDirty);
 
       var value = '';
-      if (this.options.data[this.options.valueField] !== undefined) {
+      if(this.options.data[this.options.valueField] !== undefined) {
         value = this.options.data[this.options.valueField];
       }
 
       var input = $('<input />').attr('type', 'text').attr('name', this.options.prefix + '-' + this.options.valueField).attr('title', this.options.title).attr('value', value);
       //.p8InfoTip();
-      
+
       this.element.append(input);
 
       input.p8AddHint();
@@ -274,73 +262,66 @@
 
     },
     initRules : function() {
-      if (this.options.rules !== undefined) {
+      if(this.options.rules !== undefined) {
         this.element.find("input").rules("add", this.options.rules);
       }
     }
   };
 
   $.widget("ui.p8ValueField", p8ValueField);
-  
-  
-  
-  
+
   //uses a input element
   var p8ValueFieldT = {
-      options: {
-        data: null,
-        valueField: 'value',
-        prefix: '',
-        title:'',
-        showHint: false
-      },
-      _create: function() {
-        var cnt = $("<span>");
-        
-        cnt.addClass("p8-inputElem");
-        cnt.addClass("p8-valueField");
-        cnt.change(addDirty);
-        var parent = this.element.parent();
-        cnt.appendTo(parent);
-        
-        this.element.appendTo(cnt);
-        
-  /*      var value = ''; 
-        if( this.options.data[this.options.valueField] !== undefined )
-          value = this.options.data[this.options.valueField];
-  */      
-        this.element.
-          attr('name', this.options.valueField).
-          attr('title', this.options.title).
-          //attr('value', value).
-          p8InfoTip();
+    options : {
+      data : null,
+      valueField : 'value',
+      prefix : '',
+      title : '',
+      showHint : false
+    },
+    _create : function() {
+      var cnt = $("<span>");
 
-        if(this.options.showHint) {
-          this.element.p8AddHint();
-        }
-        
-        this.element.data('p8-inputElem-value', $(this).attr('value'));
-        this.element.data('p8-inputElem-orgValue', $(this).attr('value'));
-        this.element.blur(function() {
-          $(this).data('p8-inputElem-value', $(this).attr('value'));
-        });
-        
-        this.element.focus(function() {
-          $(this).valid();
-        });
+      cnt.addClass("p8-inputElem");
+      cnt.addClass("p8-valueField");
+      cnt.change(addDirty);
+      var parent = this.element.parent();
+      cnt.appendTo(parent);
 
-        this.initRules();
-      },
-      initRules: function() {
-        if(this.options.rules !== undefined) {
-          this.element.rules("add", this.options.rules);
-        }
+      this.element.appendTo(cnt);
+
+      /*      var value = ''; 
+            if( this.options.data[this.options.valueField] !== undefined )
+              value = this.options.data[this.options.valueField];
+      */
+      this.element.attr('name', this.options.valueField).attr('title', this.options.title).
+      //attr('value', value).
+      p8InfoTip();
+
+      if(this.options.showHint) {
+        this.element.p8AddHint();
       }
-    };
 
-    $.widget("ui.p8ValueFieldT", p8ValueFieldT);
-  
-  
+      this.element.data('p8-inputElem-value', $(this).attr('value'));
+      this.element.data('p8-inputElem-orgValue', $(this).attr('value'));
+      this.element.blur(function() {
+        $(this).data('p8-inputElem-value', $(this).attr('value'));
+      });
+
+      this.element.focus(function() {
+        $(this).valid();
+      });
+
+      this.initRules();
+    },
+    initRules : function() {
+      if(this.options.rules !== undefined) {
+        this.element.rules("add", this.options.rules);
+      }
+    }
+  };
+
+  $.widget("ui.p8ValueFieldT", p8ValueFieldT);
 
   var p8TypeSelect = {
     options : {
@@ -351,7 +332,7 @@
       prefix : '',
       title : '',
       cclass : ''
-      //i180nPackage : 'contactTypes'
+    //i180nPackage : 'contactTypes'
     },
     _create : function() {
       this.element.addClass("p8-inputElem");
@@ -359,30 +340,30 @@
 
       var value = this.options.data[this.options.typeField];
       var rvalue = this.options.data[this.options.typeField];
-      if (value === 'CUSTOM') {
+      if(value === 'CUSTOM') {
         value = this.options.data[this.options.customValueField];
         rvalue = this.options.data[this.options.customValueField];
       }
-      else if (value === undefined) {
-//TODO: value translation        
+      else if(value === undefined) {
+        //TODO: value translation        
         //value = $.i18n(this.options.i180nPackage, this.options.types[0]);
         value = this.options.types[0];
       }
       else {
         rvalue = value;
-//TODO: value translation
+        //TODO: value translation
         //value = $.i18n(this.options.i180nPackage, value);
       }
 
-      if (value === undefined) {
+      if(value === undefined) {
         value = "";
       }
 
       var types = this.options.types;
       var source = [];
-      
+
       $.each(types, function(index, value) {
-//TODO: value translation
+        //TODO: value translation
         //source.push($.i18n(that.options.i180nPackage, value));
         source.push(value);
       });
@@ -392,7 +373,7 @@
         zIndex : 99,
         minLength : 0
       });
-//TODO: infotip .p8InfoTip();
+      //TODO: infotip .p8InfoTip();
 
       var button = $('<a/>').button({
         label : 'Open',
@@ -408,12 +389,12 @@
       this.element.append(input).append(button);
 
       this.element.change(addDirty).bind('autocompletechange', addDirty).bind('autocompleteselect', addDirty).bind('autocompleteselect', function(event, selected) {
-//TODO: value translation
+        //TODO: value translation
         //input.data('p8-inputElem-value', $.i18n(that.options.i180nPackage, selected.item.value));
         input.data('p8-inputElem-value', selected.item.value);
       });
 
-      if (rvalue) {
+      if(rvalue) {
         input.data('p8-inputElem-orgValue', rvalue);
         input.data('p8-inputElem-value', rvalue);
       }
@@ -421,13 +402,13 @@
       input.focus(function() {
         $(this).valid();
       }).change(function() {
-//TODO: value translation        
+        //TODO: value translation        
         //$(this).data('p8-inputElem-value', $.i18n(that.options.i180nPackage, $(this).attr('value')));
         $(this).data('p8-inputElem-value', $(this).attr('value'));
       });
     },
     initRules : function() {
-      if (this.options.rules !== undefined) {
+      if(this.options.rules !== undefined) {
         var input = this.element.find("input");
         input.rules("add", this.options.rules);
       }
@@ -438,8 +419,6 @@
   $.widget("ui.p8TypeSelect", p8TypeSelect);
 
 }(jQuery));
-
-
 
 (function($) {
 
@@ -465,33 +444,33 @@
       var innerRow = null;
       var length = options.valueFields.length;
       var colId = 0;
-      for ( var i = 0; i < length; i++) {
+      for( var i = 0; i < length; i++) {
 
         var valueField = options.valueFields[i];
-        if (i % 2 === 0) {
+        if(i % 2 === 0) {
           colId = 0;
           innerRow = $('<div class="' + options.innerClass + ' edit p8TwoCol-row-' + i / 2 + ' ' + length + '" />');
-          if (i === 0) {
+          if(i === 0) {
             innerRow.addClass("p8TwoCol-row-first");
           }
 
           selfElem.append($('<div class="' + options.innerClass + '-wrap" />').append(innerRow));
         }
 
-        if (i === length - 1 && innerRow !== null){
+        if(i === length - 1 && innerRow !== null) {
           innerRow.addClass("p8TwoCol-row-last");
         }
 
-        if (valueField.type === "text") {
+        if(valueField.type === "text") {
           innerRow.append($('<span />').addClass('col-' + colId).p8ValueField({
             data : options.data,
             valueField : valueField.value,
             prefix : options.prefix,
             title : valueField.title,
-            rules: valueField.rules
+            rules : valueField.rules
           }));
         }
-        else if (valueField.type === "select") {
+        else if(valueField.type === "select") {
           innerRow.append($("<span />").addClass('col-' + colId).p8TypeSelect({
             types : valueField.types,
             data : options.data,
@@ -541,7 +520,7 @@
     return this.each(function() {
       var selfElem = $(this);
 
-      if (options.contentTop !== null) {
+      if(options.contentTop !== null) {
         var top = $('<div class="p8-simpleSearchPanel-top" />').append(options.contentTop);
         selfElem.append(top);
       }
@@ -550,22 +529,22 @@
 
       searchField.keypress(function(e) {
         var c = e.which ? e.which : e.keyCode;
-        if (c === 13) {
-          if ($.isFunction(options.okFunc)) {
+        if(c === 13) {
+          if($.isFunction(options.okFunc)) {
             options.okFunc.call(this);
           }
         }
       });
 
       var input = $('<div class="p8-simpleSearchPanel-field" />');
-      if (options.contentRight !== null) {
+      if(options.contentRight !== null) {
         input.append(options.contentRight);
       }
-      
+
       input.append(searchField);
       selfElem.append(input);
 
-      if (options.buttons !== null) {
+      if(options.buttons !== null) {
         var buttons = $('<div class="p8-simpleSearchPanel-button" />').append($('<button />').html(options.cancelText).button().click(function() {
 
         }));
@@ -576,4 +555,3 @@
   };
 
 }(jQuery));
-

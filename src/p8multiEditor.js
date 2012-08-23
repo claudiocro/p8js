@@ -13,8 +13,8 @@
   function mapSingleTypedValuesFields(options) {
     var valueFields = [];
     var valueField;
-    
-    if (options.typeField !== null) {
+
+    if(options.typeField !== null) {
       valueField = {};
       valueField.value = options.typeField;
       valueField.customValueField = options.customValueField;
@@ -26,7 +26,7 @@
     }
 
     //var prop = null;
-    for (var prop in options.mapping) {
+    for( var prop in options.mapping) {
       valueField = {};
       valueField.value = options.mapping[prop];
       valueField.title = $.i18n(options.i180nPackage, options.group + '-' + prop);
@@ -55,10 +55,10 @@
       types : null,
       newCount : 0,
       hiddenNewData : {},
-      rules: {}
+      rules : {}
     }, poptions);
 
-    if (options.valueField !== null && options.mapping === null) {
+    if(options.valueField !== null && options.mapping === null) {
       options.mapping = {
         VALUE_FIELD : options.valueField
       };
@@ -111,7 +111,7 @@
       var self = this;
       var selfElem = self.element;
 
-      if (this.options.newFunc !== null) {
+      if(this.options.newFunc !== null) {
         $('<a />').button({
           text : false,
           label : 'Add',
@@ -136,9 +136,9 @@
 
       var editorWrap = editor.find(this.options.innerSel + "-wrap");
       editorWrap.prepend($('<div><br /></div>').addClass('action-panel'));
-      if ($.isFunction(this.options.newFunc)) {
+      if($.isFunction(this.options.newFunc)) {
 
-        if (editor.hasClass("init-new")) {
+        if(editor.hasClass("init-new")) {
           return;
         }
 
@@ -150,20 +150,21 @@
           }
         }).addClass('delete').click(function() {
           var remove = false;
-          if (editor.hasClass('new')) {
+          if(editor.hasClass('new')) {
             remove = true;
-          } else {
+          }
+          else {
             editor.addClass('deleted');
           }
 
           var scrollApi = self.element.parents(".p8-scroll").data('jsp');
-          if (self.element.find('.form-row').not(':hidden').size() > 1) {
+          if(self.element.find('.form-row').not(':hidden').size() > 1) {
             var editorHeight = editor.height() + 2; //TODO: +2 is the padding of the parent div ...
             var containerHeight = self.element.parents(".jspContainer:first").height();
             var jspPane = self.element.parents(".jspPane:first");
             var paneHeight = jspPane.height() + jspPane.position().top;
 
-            if ((paneHeight - editorHeight) < containerHeight) {
+            if((paneHeight - editorHeight) < containerHeight) {
               scrollApi.scrollByY(editorHeight * -1, true);
             }
           }
@@ -176,14 +177,15 @@
             easing : 'easeInBack',
             complete : function() {
 
-              if (remove) {
+              if(remove) {
                 self.element.find('.add').hide().appendTo(self.element);
                 $(this).remove();
               }
 
-              if (self.element.find('.form-row').not(':hidden').size() === 0) {
+              if(self.element.find('.form-row').not(':hidden').size() === 0) {
                 self.addNew(true);
-              } else {
+              }
+              else {
                 self.updateAddButton();
                 scrollApi.reinitialise();
               }
@@ -196,7 +198,7 @@
         editor.find(this.options.innerSel + '-wrap:last').find('.action-panel').prepend(delButton);
         editor.find('input').focus(function() {
           clearTimeout(self.blurTimer);
-          if (!self.focused) {
+          if(!self.focused) {
             self.focused = true;
             self._trigger('focusgained', null, {
               item : this
@@ -208,7 +210,7 @@
           clearTimeout(self.blurTimer);
           self.focused = false;
           self.blurTimer = setTimeout(function() {
-            if (self.focused !== true) {
+            if(self.focused !== true) {
               self._trigger('focuslost');
             }
           }, 50);
@@ -219,15 +221,15 @@
         //      $('.ui-autocomplete').jScrollPane();
       }
 
-      for (var prop in this.options.hiddenNewData) {
+      for( var prop in this.options.hiddenNewData) {
         editorWrap.append($("<input/>").attr('type', 'hidden').attr('name', this.options.uniqueIdFunc.call(this, editor) + '-' + prop).attr('value', this.options.hiddenNewData[prop]));
       }
 
     },
     load : function(contactInfos) {
       var newFunc = this.options.newFunc;
-      if ($.isFunction(newFunc)) {
-        for ( var i = 0, len = contactInfos.length; i < len; i++) {
+      if($.isFunction(newFunc)) {
+        for( var i = 0, len = contactInfos.length; i < len; i++) {
           var editor = newFunc.call(this, contactInfos[i]);
           this._decorateEditor(editor);
           this.element.append(editor);
@@ -238,14 +240,14 @@
 
       }
 
-      if (contactInfos.length === 0) {
+      if(contactInfos.length === 0) {
         this.addNew();
       }
 
       this.updateAddButton();
     },
     addNew : function(animate) {
-      if (this.options.allowNew === false) {
+      if(this.options.allowNew === false) {
         return;
       }
 
@@ -253,10 +255,10 @@
 
       var initFunc = this.options.initFunc;
       var newFunc = this.options.newFunc;
-      if ($.isFunction(initFunc) && this.element.find(".init-new").length === 0) {
+      if($.isFunction(initFunc) && this.element.find(".init-new").length === 0) {
         this.addInit(animate);
       }
-      else if ($.isFunction(newFunc)) {
+      else if($.isFunction(newFunc)) {
         this.element.find(".init-new").hide(200, function() {
           var addButton = that.element.find('.add');
           addButton.hide();
@@ -276,15 +278,15 @@
         $(".p8-typeSelect", editor).p8TypeSelect("initRules");
         //$(".p8-valueField", editor).p8ValueField("initRules");
 
-        if (animate) {
+        if(animate) {
           editor.css('opacity', 0);
           var scrollPaneElem = this.element.parents(".p8-scroll").filter(':first');
-          if (scrollPaneElem.length > 0) {
+          if(scrollPaneElem.length > 0) {
             var scrollApi = scrollPaneElem.data('jsp');
             var elemTop = editor.position().top;
             var elemHeight = (editor.height() + 2);
             scrollApi.reinitialise();
-            if (elemTop + elemHeight > scrollPaneElem.height()) {
+            if(elemTop + elemHeight > scrollPaneElem.height()) {
               scrollApi.scrollByY(elemHeight, true);
             }
           }
@@ -292,7 +294,7 @@
 
         editor.hide();
         editor.css('opacity', 1);
-        if (animate === undefined) {
+        if(animate === undefined) {
           editor.show();
         }
         else {
@@ -313,7 +315,7 @@
     },
     addInit : function(animate) {
       var initFunc = this.options.initFunc;
-      if ($.isFunction(initFunc)) {
+      if($.isFunction(initFunc)) {
         var editor = initFunc.call(this);
 
         this.options.newCount = this.options.newCount + 1;
@@ -323,14 +325,14 @@
         this.element.append(editor);
         this.updateAddButton();
 
-        if (animate) {
+        if(animate) {
           var scrollPaneElem = this.element.parents(".p8-scroll").filter(':first');
-          if (scrollPaneElem.length > 0) {
+          if(scrollPaneElem.length > 0) {
             var scrollApi = scrollPaneElem.data('jsp');
             var elemTop = editor.position().top;
             var elemHeight = (editor.height() + 2);
             scrollApi.reinitialise();
-            if (elemTop + elemHeight > scrollPaneElem.height()) {
+            if(elemTop + elemHeight > scrollPaneElem.height()) {
               scrollApi.scrollByY(elemHeight, true);
             }
           }
@@ -338,7 +340,7 @@
 
         editor.hide();
         editor.css('opacity', 1);
-        if (animate === undefined) {
+        if(animate === undefined) {
           editor.show();
 
         }
@@ -359,7 +361,7 @@
     updateAddButton : function() {
       this.element.find('.form-row').removeClass('last').removeClass('first');
 
-      if (this.element.find('.form-row').not(":hidden").length === 1) {
+      if(this.element.find('.form-row').not(":hidden").length === 1) {
         this.element.find('.form-row').not(":hidden").addClass('first').addClass('last');
       }
       else {
@@ -368,7 +370,7 @@
       }
 
       this.element.find(this.options.innerSel + "-wrap").removeClass('last').removeClass('first');
-      if (this.element.find(this.options.innerSel + "-wrap").not(":hidden").length === 1) {
+      if(this.element.find(this.options.innerSel + "-wrap").not(":hidden").length === 1) {
         this.element.find(this.options.innerSel + "-wrap").not(":hidden").addClass('first').addClass('last');
       }
       else {
@@ -376,13 +378,13 @@
         this.element.find(this.options.innerSel + "-wrap").not(":hidden").last().addClass('last');
       }
 
-      if (this.options.newFunc !== null) {
+      if(this.options.newFunc !== null) {
         //appends to the last
         //var addButton = this.element.find('.add').css('display','inline-block');
         //this.element.filter(':not(.form-row:hidden)').find('.form-row-inner:last').find('.action-panel').prepend(addButton);
 
         //appends to .init-new
-        if (this.element.find('.init-new').length > 0) {
+        if(this.element.find('.init-new').length > 0) {
           var addButton = this.element.find('.add');
           addButton.css('display', 'inline-block');
           this.element.find('.init-new').find('.action-panel').prepend(addButton);

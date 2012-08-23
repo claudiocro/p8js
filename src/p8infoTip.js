@@ -5,15 +5,15 @@
     function InfoTip(elem, settings) {
       var infoTip = this;
       var isShowing = false;
-      
+
       var tinyTip = $('<div class="' + settings.tipClass + '"><div class="top" style="text-align:' + settings.topAlign + ';"><img src="' + settings.peackImage + '"></div><div class="content" style="width:' + settings.width + '"></div></div>');
       tinyTip.hide();
       $('body').append(tinyTip);
 
-      if (settings.removeOnFocusLost) {
+      if(settings.removeOnFocusLost) {
         elem.blur(function() {
           setTimeout(function() {
-            if (settings.removeAfterIfFocus || !elem.is(':focus')) {
+            if(settings.removeAfterIfFocus || !elem.is(':focus')) {
               hide();
             }
 
@@ -21,9 +21,9 @@
         });
       }
 
-      if (settings.removeOnClickOutside) {
+      if(settings.removeOnClickOutside) {
         //Only one infoTip at time ...
-        if ($('#p8-infoTip-overlay').size() === 0) {
+        if($('#p8-infoTip-overlay').size() === 0) {
           var overlay = $('<div id="p8-infoTip-overlay"/>').css({
             'opacity' : 0,
             'z-index' : settings.zindex - 1
@@ -39,19 +39,19 @@
 
       }
 
-      if (settings.content !== undefined) {
+      if(settings.content !== undefined) {
         $('.content', tinyTip).append(settings.content);
       }
 
       function _show() {
 
-        if (isShowing === true) {
+        if(isShowing === true) {
           return;
         }
 
         isShowing = true;
         var xOffset = 0;
-        if (settings.topAlign === 'center') {
+        if(settings.topAlign === 'center') {
           xOffset = (tinyTip.width() / 2) - (elem.width() / 2);
         }
 
@@ -64,7 +64,7 @@
 
         // Make sure that the tooltip has absolute positioning and a high z-index, 
         // then place it at the correct spot and fade it in.
-        if (settings.removeOnClickOutside) {
+        if(settings.removeOnClickOutside) {
           $('#p8-infoTip-overlay').css({
             'width' : $(document).width(),
             'height' : $(document).height()
@@ -84,37 +84,37 @@
 
       function show(supCont) {
 
-        if (supCont !== undefined) {
+        if(supCont !== undefined) {
           settings.content = supCont;
           $('.content', tinyTip).empty().append(supCont);
         }
 
-        if (settings.content === undefined) {
+        if(settings.content === undefined) {
           return;
         }
 
         _show();
 
-        if (settings.removeAfter > 0) {
+        if(settings.removeAfter > 0) {
           setTimeout(function() {
 
-            if (settings.removeAfterIfFocus || !elem.is(':focus')) {
+            if(settings.removeAfterIfFocus || !elem.is(':focus')) {
               hide();
             }
 
           }, settings.removeAfter);
         }
 
-        if (settings.showTrigger !== undefined) {
+        if(settings.showTrigger !== undefined) {
           settings.showTrigger.call();
         }
       }
 
       function hide() {
-        if (isShowing) {
+        if(isShowing) {
           isShowing = false;
 
-          if (settings.removeOnClickOutside) {
+          if(settings.removeOnClickOutside) {
             $('#p8-infoTip-overlay').hide();
           }
 
@@ -125,7 +125,7 @@
             tinyTip.css('display', 'none');
           });
 
-          if (settings.hideTrigger !== undefined) {
+          if(settings.hideTrigger !== undefined) {
             settings.hideTrigger.call();
           }
         }
@@ -133,7 +133,7 @@
 
       function destroy() {
 
-        if (settings.removeOnClickOutside) {
+        if(settings.removeOnClickOutside) {
           $('#p8-infoTip-overlay').hide();
         }
 
@@ -164,7 +164,7 @@
     this.each(function() {
       var elem = $(this);
       var p8infoTip = elem.data('p8InfoTip');
-      if (!p8infoTip) {
+      if(!p8infoTip) {
         p8infoTip = new InfoTip(elem, psettings);
         elem.data('p8InfoTip', p8infoTip);
       }
@@ -174,21 +174,21 @@
   };
 
   $.fn.p8InfoTip.defaults = {
-    'tipClass'              : 'error-tip',
-    'opacity'               : 0.8,
-    'speed'                 : 375,
-    'hideSpeed'             : 125,
-    'width'                 : '150px',
-    'removeAfter'           : 1300, //removes the infoTip after a period of time
-    'removeAfterIfFocus'    : false, //remove it even it is focused
-    'removeOnFocusLost'     : true, //remove if the source element loses the focus
-    'removeOnClickOutside'  : true, //removes if the someone clicks outside the infoTip
-    'zindex'                : 2005,
-    'content'               : undefined,
-    'peackImage'            : 'res/images/error-tip_top.png',
-    'topAlign'              : 'center', //left,center,right
-    'hideTrigger'           : undefined,
-    'showTrigger'           : undefined
+    'tipClass' : 'error-tip',
+    'opacity' : 0.8,
+    'speed' : 375,
+    'hideSpeed' : 125,
+    'width' : '150px',
+    'removeAfter' : 1300, //removes the infoTip after a period of time
+    'removeAfterIfFocus' : false, //remove it even it is focused
+    'removeOnFocusLost' : true, //remove if the source element loses the focus
+    'removeOnClickOutside' : true, //removes if the someone clicks outside the infoTip
+    'zindex' : 2005,
+    'content' : undefined,
+    'peackImage' : 'res/images/error-tip_top.png',
+    'topAlign' : 'center', //left,center,right
+    'hideTrigger' : undefined,
+    'showTrigger' : undefined
   };
 
 }(jQuery));
