@@ -12,15 +12,23 @@ module.exports = function(grunt) {
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
     concat: {
-      dist: {
-        src: ['<banner:meta.banner>', 'src/**/*.js'],
+      core: {
+        src: ['<banner:meta.banner>', 'src/**/p8core.js','src/**/p8core*.js'],
         dest: 'dist/<%= pkg.name %>.js'
+      },
+      jqueryui: {
+        src: ['<banner:meta.banner>', 'src/**/p8jqueryui.js', 'src/**/p8jqueryui*.js'],
+        dest: 'dist/<%= pkg.name %>-jqueryui.js'
       }
     },
     min: {
-      dist: {
-        src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
+      core: {
+        src: ['<banner:meta.banner>', '<config:concat.core.dest>'],
         dest: 'dist/<%= pkg.name %>.min.js'
+      },
+      jqueryui: {
+        src: ['<banner:meta.banner>', '<config:concat.jqueryui.dest>'],
+        dest: 'dist/<%= pkg.name %>-jqueryui.min.js'
       }
     },
     qunit: {
