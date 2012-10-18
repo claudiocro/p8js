@@ -13,18 +13,18 @@ module.exports = function(grunt) {
     },
     concat: {
       core: {
-        src: ['<banner:meta.banner>', 'src/**/p8core.js','src/**/p8core*.js'],
-        dest: 'dist/<%= pkg.name %>.js'
+        src: ['<banner:meta.banner>', 'src/**/p8jquery.js','src/**/p8jquery-*.js'],
+        dest: 'dist/<%= pkg.name %>-jquery.js'
       },
       jqueryui: {
-        src: ['<banner:meta.banner>', 'src/**/p8jqueryui.js', 'src/**/p8jqueryui*.js'],
+        src: ['<banner:meta.banner>', 'src/**/p8jqueryui.js', 'src/**/p8jqueryui-*.js'],
         dest: 'dist/<%= pkg.name %>-jqueryui.js'
       }
     },
     min: {
       core: {
         src: ['<banner:meta.banner>', '<config:concat.core.dest>'],
-        dest: 'dist/<%= pkg.name %>.min.js'
+        dest: 'dist/<%= pkg.name %>-jquery.min.js'
       },
       jqueryui: {
         src: ['<banner:meta.banner>', '<config:concat.jqueryui.dest>'],
