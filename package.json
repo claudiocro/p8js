@@ -12,6 +12,11 @@
     "type": "git",
     "url": "https://claudiocro@bitbucket.org/claudiocro/p8js.git"
   },
+  
+  "scripts": {
+    "test": "grunt travis --verbose"
+  },
+  
   "bugs": {
     "url": ""
   },
