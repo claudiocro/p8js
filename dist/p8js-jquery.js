@@ -1,6 +1,13 @@
-/*! p8js - v0.4.0 - 2012-10-23
-* plus8.ch
-* Copyright (c) 2012 Claudio Romano; Licensed GPL */
+/*!
+ * p8js - v0.4.1 -  2012-10-28
+ * plus8.ch
+ * 
+ * Copyright (c) 2012, Claudio Romano
+ * Licensed Apache-2.0
+ * http://www.apache.org/licenses/LICENSE-2.
+ * 
+ * Date: 2012-10-28 15:03:43 +0100
+ */
 
 /*
  *  p8 core  0.3.1
