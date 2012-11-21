@@ -22,6 +22,20 @@
       raises(block, [expected], [message])
   */
 
+  
+  module('core.date');
+  test('p8XXJSON', 2, function() {
+    var jsonDate = '2008-09-08T15:47:31.000Z';
+    var date = new Date().p8fromJSON(jsonDate);
+    
+    equal(date.getUTCHours(), 15, "from hours");
+    
+    equal(date.p8toJSON(), jsonDate);
+    
+    
+    
+  });
+  
   module('jQuery.nl2br');
 
   test('nl2br', 4, function() {

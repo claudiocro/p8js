@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     },
     concat: {
       core: {
-        src: ['<banner:meta.banner>', 'src/**/p8jquery.js','src/**/p8jquery-*.js'],
+        src: ['<banner:meta.banner>', 'src/**/p8core.js', 'src/**/p8jquery.js','src/**/p8jquery-*.js'],
         dest: 'dist/<%= pkg.name %>-jquery.js'
       },
       jqueryui: {
