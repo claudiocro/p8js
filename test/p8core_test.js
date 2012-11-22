@@ -29,11 +29,7 @@
     var date = new Date().p8fromJSON(jsonDate);
     
     equal(date.getUTCHours(), 15, "from hours");
-    
     equal(date.p8toJSON(), jsonDate);
-    
-    
-    
   });
   
   module('jQuery.nl2br');
