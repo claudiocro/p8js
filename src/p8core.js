@@ -66,6 +66,7 @@ Date.prototype.p8toJSON = function() {
 };
 
 
+//TODO: intorduce something like date.js
 Date.prototype.p8DeDate = function(time) {
   var d = this;
   function pad(n) {
