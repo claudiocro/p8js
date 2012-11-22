@@ -32,6 +32,15 @@
     equal(date.p8toJSON(), jsonDate);
   });
   
+  test('p8DeDate', 2, function() {
+    var jsonDate = '2008-09-08T15:47:31.000Z';
+    var date = new Date().p8fromJSON(jsonDate);
+    
+    equal(date.p8DeDate(), "08.09.2008");
+    equal(date.p8DeDate(true), "08.09.2008 15:47");
+  });  
+  
+  
   module('jQuery.nl2br');
 
   test('nl2br', 4, function() {
