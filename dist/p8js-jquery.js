@@ -6,7 +6,7 @@
  * Licensed Apache-2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Date: 2012-11-22 01:15:18 +0100
+ * Date: 2012-11-22 16:57:59 +0100
  */
 
 
@@ -75,6 +75,37 @@ Date.prototype.p8toJSON = function() {
     pad(d.getUTCSeconds()) + '.' +
     pad3(d.getUTCMilliseconds()) +'Z';
 };
+
+
+//TODO: intorduce something like date.js
+Date.prototype.p8DeDate = function(time) {
+  var d = this;
+  function pad(n) {
+    return n < 10 ? '0' + n : n;
+  }
+  function pad3(n) {
+    if(n < 10) {
+       return '00' + n;
+    } else if(n < 100) {
+      return '0' + n;
+    } else {
+      return n;
+    }
+  }
+
+  var fdate =   pad(d.getUTCDate()) + '.' + 
+    pad(d.getUTCMonth() + 1) + '.' +
+    d.getUTCFullYear();
+  
+  if(time === true) {
+    fdate += " " + pad(d.getUTCHours()) + ':' + 
+    pad(d.getUTCMinutes());
+  }
+  
+  return fdate;
+};
+
+
 /*
  *  p8 core  0.3.1
  * 
