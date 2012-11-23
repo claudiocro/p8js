@@ -1,12 +1,12 @@
 /*!
- * p8js - v0.4.2 -
+ * p8js - v0.4.3 -
  * plus8.ch
  * 
  * Copyright (c) 2012, Claudio Romano
  * Licensed Apache-2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Date: 2012-11-22 16:57:59 +0100
+ * Date: 2012-11-23 13:45:17 +0100
  */
 
 
