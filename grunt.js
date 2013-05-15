@@ -66,7 +66,8 @@ module.exports = function(grunt) {
         p8WidgetType: true,
         p8Cat: true,
         p8User:true,
-        p8Options:true
+        p8Options:true,
+        ActiveXObject:true
       }
     },
     uglify: {}

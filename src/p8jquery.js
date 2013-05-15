@@ -8,10 +8,9 @@
 (function($) {
   $.extend({
     nl2br : function(text) {
-      if(typeof (text) === "string") {
+      if (typeof (text) === "string") {
         return text.replace(/(\r\n)|(\n\r)|\r|\n/g, "<br />");
-      }
-      else {
+      } else {
         return text;
       }
     }
@@ -22,13 +21,13 @@
 (function($) {
   $.extend({
     getUrlVars : function(loc) {
-      if(loc === undefined) {
+      if (loc === undefined) {
         loc = window.location.href;
       }
 
       var vars = [], hash;
       var hashes = loc.slice(loc.indexOf('?') + 1).split('&');
-      for( var i = 0; i < hashes.length; i++) {
+      for ( var i = 0; i < hashes.length; i++) {
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
@@ -47,18 +46,16 @@
       var ratio = currH / currW;
       var maxRatio = maxH / maxW;
 
-      if(currW >= maxW && ratio <= maxRatio) {
+      if (currW >= maxW && ratio <= maxRatio) {
         currW = maxW;
         currH = currW * ratio;
-      }
-      else if(currH >= maxH) {
+      } else if (currH >= maxH) {
         currH = maxH;
         currW = currH / ratio;
       }
-      if(roundResult !== true) {
+      if (roundResult !== true) {
         return [ currW, currH ];
-      }
-      else {
+      } else {
         return [ Math.round(currW), Math.round(currH) ];
       }
     }
@@ -77,15 +74,21 @@
 }(jQuery));
 
 (function($) {
+  $.extend({
+    hex2a : function(hex) {
+      var str = '';
+      for ( var i = 0; i < hex.length; i += 2) {
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+      }
+      return str;
+    },
 
-  // TODO: remove :focus selector because it's already implemented by jquery
-  // since 1.6
-
-  /*
-   * JQuery selector to get the activeElement from a document
-   * 
-   * Use: $(this).is(':focus')
-   * 
-   * $.extend(jQuery.expr[':'], { focus : function(element) { return element === document.activeElement; } });
-   */
+    asc2h : function(pStr) {
+      var tempstr = '';
+      for ( var a = 0; a < pStr.length; a = a + 1) {
+        tempstr = tempstr + pStr.charCodeAt(a).toString(16);
+      }
+      return tempstr;
+    }
+  });
 }(jQuery));
