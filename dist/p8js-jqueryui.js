@@ -1,14 +1,3 @@
-/*!
- * p8js - v0.4.4 -
- * plus8.ch
- * 
- * Copyright (c) 2013, Claudio Romano
- * Licensed Apache-2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Date: 2013-05-24 14:59:54 +0200
- */
-
 /*
  *  p8 ui  0.2.2
  * 
