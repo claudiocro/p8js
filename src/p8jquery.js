@@ -1,9 +1,3 @@
-/*
- *  p8 core  0.3.1
- * 
- * Depends:
- * jquery
- */
 
 (function($) {
   $.extend({
