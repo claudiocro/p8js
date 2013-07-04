@@ -2,8 +2,8 @@
   "name": "p8js",
   "title": "p8js",
   "description": "plus8.ch js framework",
-  "version": "0.4.5",
-  "homepage": "plus8.ch",
+  "version": "0.4.6",
+  "homepage": "plus8.ch/projects/p8js",
   "author": {
     "name": "Claudio Romano",
     "email": "claudio.romano@plus8.ch"
@@ -28,11 +28,13 @@
   ],
   "dependencies": {
     "jquery": "1.7.2",
+    "grunt": "0.4.1",
     "grunt-contrib-qunit": "0.2.1",
     "grunt-contrib-concat": "0.3.0",
     "grunt-contrib-jshint": "0.3.0",
     "grunt-contrib-uglify": "0.2.0",
-    "grunt": "0.4.1"
+    "grunt-s3": "0.2.0-alpha",
+    "grunt-contrib-clean": "0.4.1" 
   },
   "keywords": []
 }

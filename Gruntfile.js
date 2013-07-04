@@ -27,12 +27,12 @@ module.exports = function(grunt){
             src : ['src/**/p8core.js',
                 'src/**/p8jquery.js', 'src/**/p8jquery-*.js',
                 'src/**/p8webedit.js' ],
-            dest : 'dist/<%= pkg.name %>-jquery.js'
+            dest : 'dist/<%= pkg.name %>-jquery-<%= pkg.version %>.js'
           },
           jqueryui : {
             src : ['src/**/p8jqueryui.js',
                 'src/**/p8jqueryui-*.js' ],
-            dest : 'dist/<%= pkg.name %>-jqueryui.js'
+            dest : 'dist/<%= pkg.name %>-jqueryui-<%= pkg.version %>.js'
           }
         },
         uglify: {
@@ -41,12 +41,12 @@ module.exports = function(grunt){
           },
           core: {
             files: {
-              'dist/<%= pkg.name %>-jquery.min.js': ['<%= concat.core.dest %>']
+              'dist/<%= pkg.name %>-jquery.min-<%= pkg.version %>.js': ['<%= concat.core.dest %>']
             }
           },
           jqueryui: {
             files: {
-              'dist/<%= pkg.name %>-jqueryui.min.js': ['<%= concat.jqueryui.dest %>']
+              'dist/<%= pkg.name %>-jqueryui.min-<%= pkg.version %>.js': ['<%= concat.jqueryui.dest %>']
             }
           }
         },
@@ -77,6 +77,36 @@ module.exports = function(grunt){
             }
 
           }
+        },
+        
+        clean: {
+          dist: {
+            src: ["dist/*"]
+          }
+        },
+        
+        
+        s3: {
+          options: {
+            key: 'AKIAIEVHZYBNHNWDOPPQ',
+            secret: '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',
+            bucket: 'p8builds',
+            access: 'public-read'
+          },
+          dev: {
+            // These options override the defaults
+            options: {
+              encodePaths: true,
+              maxOperations: 20
+            },
+            // Files to be uploaded.
+            upload: [
+              {
+                src: 'dist/*',
+                dest: 'p8js'
+              }
+            ]
+          }
         }
       });
 
@@ -84,9 +114,11 @@ module.exports = function(grunt){
   grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-clean");
+  grunt.loadNpmTasks('grunt-s3');
 
   // Default task.
-  grunt.registerTask('default', [ 'jshint', 'qunit', 'concat', 'uglify' ]);
-  grunt.registerTask('travis', [ 'jshint', 'qunit' ]);
+  grunt.registerTask('default', [ 'clean, jshint', 'qunit', 'concat', 'uglify' ]);
+  grunt.registerTask('travis', [ 'clean, jshint', 'qunit' ]);
 
 };
