@@ -41,12 +41,12 @@ module.exports = function(grunt){
           },
           core: {
             files: {
-              'dist/<%= pkg.name %>-jquery.min-<%= pkg.version %>.js': ['<%= concat.core.dest %>']
+              'dist/<%= pkg.name %>-jquery-<%= pkg.version %>.min.js': ['<%= concat.core.dest %>']
             }
           },
           jqueryui: {
             files: {
-              'dist/<%= pkg.name %>-jqueryui.min-<%= pkg.version %>.js': ['<%= concat.jqueryui.dest %>']
+              'dist/<%= pkg.name %>-jqueryui-<%= pkg.version %>.min.js': ['<%= concat.jqueryui.dest %>']
             }
           }
         },
@@ -118,7 +118,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-s3');
 
   // Default task.
-  grunt.registerTask('default', [ 'clean, jshint', 'qunit', 'concat', 'uglify' ]);
-  grunt.registerTask('travis', [ 'clean, jshint', 'qunit' ]);
+  grunt.registerTask('default', [ 'clean', 'jshint', 'qunit', 'concat', 'uglify' ]);
+  grunt.registerTask('travis', [ 'clean', 'jshint', 'qunit' ]);
 
 };
