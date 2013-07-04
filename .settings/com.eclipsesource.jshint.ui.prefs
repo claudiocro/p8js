@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+globals=jQuery\:true
+included=src/*
+options=curly \: true,\neqeqeq \: true,\nimmed \: true,\nlatedef \: true,\nnewcap \: true,\nnoarg \: true,\nsub \: true,\nundef \: true,\nboss \: true,\neqnull \: true,\nbrowser \: true
+projectSpecificOptions=true
