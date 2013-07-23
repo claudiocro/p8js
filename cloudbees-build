@@ -14,8 +14,7 @@ export phantomjs=$(pwd)/jenkins-onbuild/phantomjs-1.7.0-linux-i686/bin
 PATH=$PATH:$(pwd)/jenkins-onbuild/phantomjs-1.7.0-linux-i686/bin
 
 touch ./aws.s3.synchronize.json
-before_script.2
-$ echo {} > ./aws.s3.synchronize.json
+echo {} > ./aws.s3.synchronize.json
 
 npm install
 npm install -g grunt-cli
