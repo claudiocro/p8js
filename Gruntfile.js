@@ -9,14 +9,14 @@ module.exports = function(grunt){
         meta : {
           banner: '/*!\n'+
           ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %>' + "\n" +
-          ' <%= pkg.homepage ? "* " + pkg.homepage ' + "\n" + ' : "" %>' +
+          ' <%= pkg.homepage ? "* " + pkg.homepage ' + "\n" + ' : "" %>' + "\n"+
           ' * ' + "\n" +
           ' * Copyright (c) <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %>' + "\n" +
           ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>' + "\n"+
           ' * <%= _.pluck(pkg.licenses, "url").join(", ") %>' + "\n"+
           ' * ' + "\n" +
           ' * Date: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss o") %>' + "\n" +
-          ' */'
+          ' */' + "\n"
         },
         concat : {
           options: {

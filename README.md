@@ -2,6 +2,22 @@
 
 plus8.ch js framework
 
+## Prepare npm and install grunt
+
+npm install
+npm install -g grunt-cli
+
+
+## Build options
+
+Default build
+	
+	grunt
+
+Upload to amazon s3
+
+	grunt s3
+
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
