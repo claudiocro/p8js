@@ -16,6 +16,7 @@ module.exports = function(grunt){
           ' * <%= _.pluck(pkg.licenses, "url").join(", ") %>' + "\n"+
           ' * ' + "\n" +
           ' * Date: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss o") %>' + "\n" +
+          ' * Git revision: <%= grunt.config.get("git-revision") %>' + "\n" +
           ' */' + "\n"
         },
         concat : {
@@ -108,6 +109,16 @@ module.exports = function(grunt){
               }
             ]
           }
+        },
+        
+        
+        "git-rev-parse": {
+          dist: {
+            options: {
+              prop: 'git-revision',
+              number: 6
+            }
+          }
         }
       });
 
@@ -117,9 +128,10 @@ module.exports = function(grunt){
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks('grunt-s3');
-
+  grunt.loadNpmTasks('grunt-git-rev-parse');
+  
   // Default task.
-  grunt.registerTask('default', [ 'clean', 'jshint', 'qunit', 'concat', 'uglify' ]);
+  grunt.registerTask('default', [ 'clean', 'jshint', 'qunit', 'git-rev-parse', 'concat', 'uglify' ]);
   grunt.registerTask('travis', [ 'clean', 'jshint', 'qunit' ]);
 
 };

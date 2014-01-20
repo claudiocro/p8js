@@ -2,7 +2,7 @@
   "name": "p8js",
   "title": "p8js",
   "description": "plus8.ch js framework",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "homepage": "plus8.ch/projects/p8js",
   "author": {
     "name": "Claudio Romano",
@@ -33,7 +33,8 @@
     "grunt-contrib-jshint": "0.3.0",
     "grunt-contrib-uglify": "0.2.0",
     "grunt-s3": "0.2.0-alpha",
-    "grunt-contrib-clean": "0.4.1" 
+    "grunt-contrib-clean": "0.4.1",
+    "grunt-git-rev-parse": "~0.1.4"
   },
   "keywords": []
 }
