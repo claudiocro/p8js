@@ -91,7 +91,7 @@
     if(v_stsOpenDoc2 === null || v_strStsOpenDoc2 !== a) {
       v_stsOpenDoc2 = null;
       v_strStsOpenDoc2 = null;
-      if(window.ActiveXObject) {
+      if(window.ActiveXObject || "ActiveXObject" in window) {
         try {
           v_stsOpenDoc2 = new ActiveXObject(a);
           v_strStsOpenDoc2 = a;
