@@ -81,8 +81,7 @@
   var webedit = function(id) {
     var d = stsOpenEnsureEx2('SharePoint.OpenDocuments.3');
     if(d != null) {
-      d.EditDocument(id);
-      return true;
+      return d.EditDocument(id);
     }
     return false;
   };
